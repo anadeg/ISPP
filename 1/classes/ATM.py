@@ -7,8 +7,7 @@ from .Card import Card
 from exceptions.CardIsNotInserted import CardIsNotInsertedException
 from exceptions.CardIsInserted import CardIsInsertedException
 from exceptions.NoSuchCurrency import NoSuchCurrencyException
-from exceptions.NotEnoughMoneyOnBalance import NotEnoughMoneyOnBalanceException
-from exceptions.NotEnoughMoneyInATM import NotEnoughMoneyInATMException
+from exceptions.NotEnoughMoney import NotEnoughMoneyException
 
 
 class ATM:
@@ -62,23 +61,30 @@ class ATM:
         cash = int(cash)
 
         try:
-            if currency not in self.inserted_card.balance.keys() or currency not in self.__cash_holder.keys():
-                raise NoSuchCurrencyException()
+            if currency not in self.inserted_card.balance.keys():
+                raise NoSuchCurrencyException("YOU DO NOT HAVE SUCH CURRENCY ON THE CARD")
+        except NoSuchCurrencyException as error:
+            print(error)
+            return
+
+        try:
+            if currency not in self.__cash_holder.keys():
+                raise NoSuchCurrencyException("WE DO NOT HAVE SUCH CURRENCY IN THE ATM")
         except NoSuchCurrencyException as error:
             print(error)
             return
 
         try:
             if self.inserted_card.balance[currency] < cash:
-                raise NotEnoughMoneyOnBalanceException()
-        except NotEnoughMoneyOnBalanceException as error:
+                raise NotEnoughMoneyException("NOT ENOUGH MONEY ON YOUR CARD")
+        except NotEnoughMoneyException as error:
             print(error)
             return
 
         try:
             if self.__cash_holder[currency] < cash:
-                raise NotEnoughMoneyInATMException()
-        except NotEnoughMoneyInATMException as error:
+                raise NotEnoughMoneyException("NOT ENOUGH MONEY IN THE ATM")
+        except NotEnoughMoneyException as error:
             print(error)
             return
 
@@ -110,15 +116,15 @@ class ATM:
 
         try:
             if currency not in self.inserted_card.balance.keys():
-                raise NoSuchCurrencyException()
+                raise NoSuchCurrencyException("YOU DO NOT HAVE SUCH CURRENCY ON THE CARD")
         except NoSuchCurrencyException as error:
             print(error)
             return
 
         try:
             if self.inserted_card.balance[currency] < cash:
-                raise NotEnoughMoneyOnBalanceException()
-        except NotEnoughMoneyOnBalanceException as error:
+                raise NotEnoughMoneyException("NOT ENOUGH MONEY ON YOUR CARD")
+        except NotEnoughMoneyException as error:
             print(error)
             return
 

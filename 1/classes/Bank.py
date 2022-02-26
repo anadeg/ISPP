@@ -1,5 +1,5 @@
 from random import randint
-from typing import Dict, List
+from typing import Dict, List, TypeGuard
 
 from .Card import Card
 from .FileReader import FileReader
@@ -48,7 +48,7 @@ class Bank:
         return cards_list
 
     @classmethod
-    def find_card(cls, card: Card):
+    def find_card(cls, card: Card) -> TypeGuard:
         banks_cards = []
         for bank in cls.banks_list:
             banks_cards.extend(bank.cards)

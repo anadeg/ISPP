@@ -3,7 +3,7 @@ class NoSuchCurrencyException(Exception):
         if args:
             self.massage = args[0]
         else:
-            self.massage = "YOU DO NOT HAVE SUCH CURRENCY ON THE CARD"
+            self.massage = "NO SUCH CURRENCY"
 
     def __str__(self):
         return self.massage
