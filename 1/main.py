@@ -32,10 +32,9 @@ def working_with_card(atm: ATM, card: Card) -> None:
 def main():
     b_bank = Bank()
     atm = ATM()
-    # CSVReader.read_info(b_bank, "cards_info.csv")
-    # my_card = b_bank.cards[0]
+    cards = b_bank.create_cards("my_card.txt")
+    my_card = cards[0]
     b_bank.add_money_to_atm(atm, {"USD": 1000, "EU": 124})
-    my_card = b_bank.create_card("me", balance={"USD": 13600})
     print("==================================================")
     working_with_card(atm, my_card)
 

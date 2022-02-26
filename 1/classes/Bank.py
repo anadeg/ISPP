@@ -1,7 +1,8 @@
 from random import randint
-from typing import Dict
+from typing import Dict, List
 
 from .Card import Card
+from .FileReader import FileReader
 try:
     from .ATM import ATM
 except ImportError:
@@ -34,14 +35,17 @@ class Bank:
             else:
                 atm.cash_holder[nominal] += amount
 
-    def create_card(self, user_name: str, balance=None) -> Card:
-        password = randint(1000, 9999)
-        number = " ".join([str(randint(1000, 9999)) for _ in range(4)])
-        new_card = Card(number, user_name, password, balance)
-        self.__cards.append(new_card)
-
-        print(f"your password is: {password}. please, don't forget it")
-        return new_card
+    def create_cards(self, cards_info) -> List[Card]:
+        names, balances = FileReader.read_from_file(cards_info)
+        cards_list = []
+        for user, balance in zip(names, balances):
+            password = randint(1000, 9999)
+            number = " ".join([str(randint(1000, 9999)) for _ in range(4)])
+            card = Card(number, user, password, balance)
+            self.__cards.append(card)
+            cards_list.append(card)
+            print(f"your password is: {password}. please, don't forget it")
+        return cards_list
 
     @classmethod
     def find_card(cls, card: Card):

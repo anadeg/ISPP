@@ -1,4 +1,3 @@
-import csv
 from typing import TypeGuard
 
 from exceptions.CardIsBlocked import CardIsBlockedException
