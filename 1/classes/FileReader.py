@@ -3,7 +3,7 @@ import ast
 
 class FileReader:
     @staticmethod
-    def read_from_file(file_name):
+    def read_from_file(file_name: str):
         names = []
         balances = []
         with open(file_name) as file:

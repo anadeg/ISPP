@@ -1,4 +1,4 @@
-from typing import List, TypeGuard
+from typing import List, TypeGuard, Dict
 
 from .Bank import Bank
 from .Banknote import Banknote
@@ -31,16 +31,22 @@ class ATM:
                 how_much -= amount_of_banknotes * nominal
         return result
 
-    def insert_card(self, card: Card) -> None:
+    def add_money_to_cash_holder(self, money: Dict[str, int]) -> None:
+        for nominal, amount in money.items():
+            if nominal not in self.__cash_holder:
+                self.__cash_holder[nominal] = amount
+            else:
+                self.__cash_holder[nominal] += amount
+
+    def insert_card(self, card: Card) -> str:
         try:
             if self.inserted_card is not None:
                 raise CardIsInsertedException()
         except CardIsInsertedException as error:
-            print(error)
-            return
+            return error.massage
 
         self.inserted_card = card
-        print("your card was successfully inserted")
+        return "your card was successfully inserted"
 
     def check_card(self) -> TypeGuard:
         try:
@@ -51,11 +57,11 @@ class ATM:
             return False
         return Bank.find_card(self.inserted_card)
 
-    def withdraw_money(self) -> None:   # снять деньги
+    def withdraw_money(self) -> List[Banknote]:
         if not self.check_card():
-            return
+            return []
         if not self.inserted_card.check_password():
-            return
+            return []
 
         currency, cash = input("enter amount of cash (currency and amount) --- ").split()
         cash = int(cash)
@@ -65,49 +71,47 @@ class ATM:
                 raise NoSuchCurrencyException("YOU DO NOT HAVE SUCH CURRENCY ON THE CARD")
         except NoSuchCurrencyException as error:
             print(error)
-            return
+            return []
 
         try:
             if currency not in self.__cash_holder.keys():
                 raise NoSuchCurrencyException("WE DO NOT HAVE SUCH CURRENCY IN THE ATM")
         except NoSuchCurrencyException as error:
             print(error)
-            return
+            return []
 
         try:
             if self.inserted_card.balance[currency] < cash:
                 raise NotEnoughMoneyException("NOT ENOUGH MONEY ON YOUR CARD")
         except NotEnoughMoneyException as error:
             print(error)
-            return
+            return []
 
         try:
             if self.__cash_holder[currency] < cash:
                 raise NotEnoughMoneyException("NOT ENOUGH MONEY IN THE ATM")
         except NotEnoughMoneyException as error:
             print(error)
-            return
+            return []
 
         self.inserted_card.balance[currency] -= cash
         self.__cash_holder[currency] -= cash
 
         res = ATM.give_cash(currency, cash)
-        print(*res, sep='\n')
-        return
+        return res
 
-    def show_balance(self) -> None:
+    def show_balance(self) -> Dict[str, int]:
         if not self.check_card():
-            return
+            return {}
         if not self.inserted_card.check_password():
-            return
-        for currency, amount in self.inserted_card.balance.items():
-            print(f"{currency} {amount}")
+            return {}
+        return self.inserted_card.balance
 
-    def top_up_phone_balance(self) -> None:
+    def top_up_phone_balance(self) -> str:
         if not self.check_card():
-            return
+            return ""
         if not self.inserted_card.check_password():
-            return
+            return ""
 
         phone_number = int(input("input phone number --- "))
 
@@ -118,25 +122,23 @@ class ATM:
             if currency not in self.inserted_card.balance.keys():
                 raise NoSuchCurrencyException("YOU DO NOT HAVE SUCH CURRENCY ON THE CARD")
         except NoSuchCurrencyException as error:
-            print(error)
-            return
+            return error.massage
 
         try:
             if self.inserted_card.balance[currency] < cash:
                 raise NotEnoughMoneyException("NOT ENOUGH MONEY ON YOUR CARD")
         except NotEnoughMoneyException as error:
-            print(error)
-            return
+            return error.massage
 
         self.inserted_card.balance[currency] -= cash
-        print(f"you successfully have topped up {phone_number}")
+        return f"you successfully have topped up {phone_number}"
 
-    def remove_card(self) -> None:
+    def remove_card(self) -> str:
         try:
             if self.inserted_card is None:
                 raise CardIsNotInsertedException()
         except CardIsNotInsertedException as error:
-            print(error)
-            return
+            return error.massage
 
         self.inserted_card = None
+        return "your card was removed"

@@ -1,14 +1,8 @@
 from random import randint
-from typing import Dict, List, TypeGuard
+from typing import List, TypeGuard
 
 from .Card import Card
 from .FileReader import FileReader
-try:
-    from .ATM import ATM
-except ImportError:
-    import sys
-    ATM = sys.modules[__package__ + '.ATM']
-
 
 from exceptions.CardDoesNotExist import CardDoesNotExistException
 
@@ -24,16 +18,8 @@ class Bank:
         Bank.banks_list.remove(self)
 
     @property
-    def cards(self):
+    def cards(self) -> List[Card]:
         return self.__cards
-
-    @staticmethod
-    def add_money_to_atm(atm: ATM, money: Dict[str, int]) -> None:
-        for nominal, amount in money.items():
-            if nominal not in atm.cash_holder:
-                atm.cash_holder[nominal] = amount
-            else:
-                atm.cash_holder[nominal] += amount
 
     def create_cards(self, cards_info) -> List[Card]:
         names, balances = FileReader.read_from_file(cards_info)
@@ -59,3 +45,4 @@ class Bank:
             print(error)
             return False
         return True
+

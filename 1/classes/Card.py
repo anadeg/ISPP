@@ -1,4 +1,4 @@
-from typing import TypeGuard
+from typing import TypeGuard, Dict
 
 from exceptions.CardIsBlocked import CardIsBlockedException
 
@@ -12,11 +12,11 @@ class Card:
         self.__balance = balance
 
     @property
-    def balance(self):
+    def balance(self) -> Dict[str, int]:
         return self.__balance
 
     @property
-    def password(self):
+    def password(self) -> int:
         return self.__password
 
     def check_password(self) -> TypeGuard:
@@ -36,6 +36,5 @@ class Card:
             else:
                 return True
         self.__active = False
-        print("your card was blocked")
+        print("\nyour card was blocked")
         return False
-

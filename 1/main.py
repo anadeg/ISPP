@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from classes.ATM import *
+from classes.Bank import Bank
 
 
 def working_with_card(atm: ATM, card: Card) -> None:
@@ -14,15 +15,26 @@ def working_with_card(atm: ATM, card: Card) -> None:
                         )
     match func_number:
         case "1":
-            atm.insert_card(card)
+            info = atm.insert_card(card)
+            if info:
+                print(info)
         case "2":
-            atm.withdraw_money()
+            cash_list = atm.withdraw_money()
+            if cash_list:
+                print(*cash_list, sep='\n')
         case "3":
-            atm.show_balance()
+            money_dict = atm.show_balance()
+            if money_dict:
+                for currency, amount in money_dict.items():
+                    print(currency, amount)
         case "4":
-            atm.top_up_phone_balance()
+            info = atm.top_up_phone_balance()
+            if info:
+                print(info)
         case "5":
-            atm.remove_card()
+            info = atm.remove_card()
+            if info:
+                print(info)
         case _:
             return
 
@@ -34,7 +46,7 @@ def main():
     atm = ATM()
     cards = b_bank.create_cards("my_card.txt")
     my_card = cards[0]
-    b_bank.add_money_to_atm(atm, {"USD": 1000, "EU": 124})
+    atm.add_money_to_cash_holder({"USD": 1000, "EU": 124})
     print("==================================================")
     working_with_card(atm, my_card)
 
