@@ -1,0 +1,56 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class ATM
+{
+-__cash_holder: Dict[str, int]
++inserted_card: Card
+-__init__(): None
++cash_holder(): Dict[str: int]
++give_cash(str, int): List[Banknote]
++add_money_to_cash_holder(Dict[str, int]): None
++insert_card(Card): None
++check_card(): TypeGuard
++withdraw_money(): List[Banknote]
++show_balance(): Dict[str, int]
++top_up_phone_balance(): str
++remove_card(): str
+}
+class Bank
+{
++bank_list: List[Bank]
+-__cards: List[Card]
+-__init__():None
+-__del__():None
++create_card(str): List[Card]
++find_card(Card): TypeGuard
+}
+class Banknote
+{
+-__init__(str, int): None
+-__str__(): str
+}
+class Card
+{
+-__active: boolean
++number: str
++name: str
+-__password: int
+-__balance: Dict[str, int]
+-__init__(str, str, int, Dict[str, int]):None
++balance(): Dict[str, int]
++password(): int
+}
+class FileReader
+{
++read_from_file(str): List[str], List[Dict[str, int]]
+}
+
+ATM ..> Banknote
+
+Bank ..> FileReader
+
+Card ..> Bank
+Card --o ATM
+
+@enduml
