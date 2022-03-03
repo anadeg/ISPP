@@ -4,6 +4,7 @@ from .Bank import Bank
 from .Banknote import Banknote
 from .Card import Card
 
+from exceptions.CardIsBlocked import CardIsBlockedException
 from exceptions.CardIsNotInserted import CardIsNotInsertedException
 from exceptions.CardIsInserted import CardIsInsertedException
 from exceptions.NoSuchCurrency import NoSuchCurrencyException
@@ -55,14 +56,23 @@ class ATM:
         except CardIsNotInsertedException as error:
             print(error)
             return False
-        return Bank.find_card(self.inserted_card)
 
-    def withdraw_money(self, currency, cash) -> List[Banknote]:
-        if not self.check_card():
-            return []
+        try:
+            if not self.inserted_card.active:
+                raise CardIsBlockedException()
+        except CardIsBlockedException as error:
+            print(error)
+            return False
+
+        if not Bank.find_card(self.inserted_card):
+            return False
+
         if not self.inserted_card.check_password():
-            return []
+            return False
 
+        return True
+
+    def withdraw_money(self, currency: str, cash: int) -> List[Banknote]:
         try:
             if currency not in self.inserted_card.balance.keys():
                 raise NoSuchCurrencyException("YOU DO NOT HAVE SUCH CURRENCY ON THE CARD")
@@ -98,18 +108,9 @@ class ATM:
         return res
 
     def show_balance(self) -> Dict[str, int]:
-        if not self.check_card():
-            return {}
-        if not self.inserted_card.check_password():
-            return {}
         return self.inserted_card.balance
 
-    def top_up_phone_balance(self, phone_number, currency, cash) -> str:
-        if not self.check_card():
-            return ""
-        if not self.inserted_card.check_password():
-            return ""
-
+    def top_up_phone_balance(self, phone_number: str, currency: str, cash: int) -> str:
         try:
             if currency not in self.inserted_card.balance.keys():
                 raise NoSuchCurrencyException("YOU DO NOT HAVE SUCH CURRENCY ON THE CARD")
