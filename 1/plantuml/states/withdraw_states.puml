@@ -9,12 +9,10 @@ CheckInserting --> ShowOptions: card was already inserted
 CheckInserting --> ShowOptions: is inserted
 
 ShowOptions --> WithdrawCash:choose "withdraw cash"
-WithdrawCash --> CheckCard
+WithdrawCash --> CheckCardValidation
 
-state CheckCard{
 CheckCardValidation --> CheckPassword: is valid
 CheckCardValidation --> ShowOptions: is not valid
-}
 
 state CheckPassword{
 ComparingPassword --> WrongPassword
