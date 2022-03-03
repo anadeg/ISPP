@@ -1,3 +1,6 @@
+from typing import TypeGuard
+
+
 class Banknote:
     def __init__(self, currency: str, nominal_value: int) -> None:
         self.currency = currency
@@ -6,6 +9,6 @@ class Banknote:
     def __str__(self) -> str:
         return f"{self.nominal_value} {self.currency}"
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> TypeGuard:
         return other.currency == self.currency and other.nominal_value == self.nominal_value
 

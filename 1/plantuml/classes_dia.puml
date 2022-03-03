@@ -11,9 +11,9 @@ class ATM
 +add_money_to_cash_holder(Dict[str, int]): None
 +insert_card(Card): None
 +check_card(): TypeGuard
-+withdraw_money(): List[Banknote]
++withdraw_money(str, int): List[Banknote]
 +show_balance(): Dict[str, int]
-+top_up_phone_balance(): str
++top_up_phone_balance(str, str, int): str
 +remove_card(): str
 }
 class Bank
@@ -29,6 +29,7 @@ class Banknote
 {
 -__init__(str, int): None
 -__str__(): str
+-__eq__(Banknote): TypeGuard
 }
 class Card
 {
@@ -40,6 +41,8 @@ class Card
 -__init__(str, str, int, Dict[str, int]):None
 +balance(): Dict[str, int]
 +password(): int
++active(): TypeGuard
++check_password(): TypeGuard
 }
 class FileReader
 {
