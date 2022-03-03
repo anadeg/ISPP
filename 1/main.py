@@ -19,23 +19,26 @@ def working_with_card(atm: ATM, card: Card) -> None:
             if info:
                 print(info)
         case "2":
-            currency, cash = input("enter amount of cash (currency and amount) --- ").split()
-            cash = int(cash)
-            cash_list = atm.withdraw_money(currency, cash)
-            if cash_list:
-                print(*cash_list, sep='\n')
+            if atm.check_card():
+                currency, cash = input("enter amount of cash (currency and amount) --- ").split()
+                cash = int(cash)
+                cash_list = atm.withdraw_money(currency, cash)
+                if cash_list:
+                    print(*cash_list, sep='\n')
         case "3":
-            money_dict = atm.show_balance()
-            if money_dict:
-                for currency, amount in money_dict.items():
-                    print(currency, amount)
+            if atm.check_card():
+                money_dict = atm.show_balance()
+                if money_dict:
+                    for currency, amount in money_dict.items():
+                        print(currency, amount)
         case "4":
-            phone_number = int(input("input phone number --- "))
-            currency, cash = input("enter amount of cash (currency and amount) --- ").split()
-            cash = int(cash)
-            info = atm.top_up_phone_balance(phone_number, currency, cash)
-            if info:
-                print(info)
+            if atm.check_card():
+                phone_number = int(input("input phone number --- "))
+                currency, cash = input("enter amount of cash (currency and amount) --- ").split()
+                cash = int(cash)
+                info = atm.top_up_phone_balance(phone_number, currency, cash)
+                if info:
+                    print(info)
         case "5":
             info = atm.remove_card()
             if info:
