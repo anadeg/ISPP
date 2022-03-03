@@ -36,5 +36,5 @@ class Card:
             else:
                 return True
         self.__active = False
-        print("\nyour card was blocked")
+        print("YOUR CARD WAS BLOCKED")
         return False
