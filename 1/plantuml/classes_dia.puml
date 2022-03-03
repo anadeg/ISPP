@@ -47,10 +47,12 @@ class FileReader
 }
 
 ATM ..> Banknote
+ATM ..> Bank
+
+Card --o ATM
+Card --o Bank
 
 Bank ..> FileReader
 
-Card ..> Bank
-Card --o ATM
 
 @enduml
