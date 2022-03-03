@@ -1,0 +1,81 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+[*] --> ShowOptions: user appears
+
+ShowOptions --> InsertCard: choose "insert card"
+InsertCard --> ShowOptions: card was already inserted
+InsertCard --> ShowOptions: is inserted
+
+ShowOptions --> WithdrawCash:choose "withdraw cash"
+WithdrawCash --> CheckCard
+
+state CheckCard{
+[*] --> CheckCardValidation
+CheckCardValidation --> CheckPassword: is valid
+CheckCardValidation --> ShowOptions: is not valid
+}
+
+state CheckPassword{
+[*] --> ComparingPassword
+ComparingPassword --> WrongPassword
+WrongPassword --> ComparingPassword: less than 3 wrong inputs
+WrongPassword --> CardBlocking: more than 3 wrong inputs
+CardBlocking --> ShowOptions
+
+ComparingPassword --> CorrectPassword
+}
+
+CorrectPassword --> EnterCash
+EnterCash --> CheckCurrencyCard
+
+state CheckCurrencyCard{
+[*] --> CheckHavingCurrencyOnCard
+CheckHavingCurrencyOnCard --> ShowOptions: doesn't have such currency
+CheckHavingCurrencyOnCard --> CheckCurrencyATM: has such currency
+}
+
+state CheckCurrencyATM{
+[*] --> CheckHavingCurrencyInATM
+CheckHavingCurrencyInATM --> ShowOptions: doesn't have such currency
+CheckHavingCurrencyInATM --> CheckAmountUser: has such currency
+}
+
+state CheckAmountUser{
+[*] --> UserHasEnough
+UserHasEnough --> ShowOptions: no
+UserHasEnough --> CheckAmountATM: yes
+}
+
+state CheckAmountATM{
+[*] --> ATMHasEnough
+ATMHasEnough --> ShowOptions: no
+ATMHasEnough --> CountBanknotes: yes
+}
+
+state CountBanknotes{
+}
+CountBanknotes --> GiveCash
+GiveCash --> ShowOptions
+
+'scale 350 width
+'[*] --> NotShooting
+'
+'state NotShooting {
+'  [*] --> Idle
+'  Idle --> Configuring : EvConfig
+'  Configuring --> Idle : EvConfig
+'}
+'
+'state Configuring {
+'  [*] --> NewValueSelection
+'  NewValueSelection --> NewValuePreview : EvNewValue
+'  NewValuePreview --> NewValueSelection : EvNewValueRejected
+'  NewValuePreview --> NewValueSelection : EvNewValueSaved
+'
+'  state NewValuePreview {
+'     State1 -> State2
+'  }
+'
+'}
+@enduml
