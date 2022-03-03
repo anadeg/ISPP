@@ -6,7 +6,8 @@
 ShowOptions --> InsertCard: choose "insert card"
 InsertCard --> CheckInserting
 CheckInserting --> ShowOptions: card was already inserted
-CheckInserting --> ShowOptions: is inserted
+CheckInserting --> Insert: card was not inserted
+Insert --> ShowOptions
 
 ShowOptions --> ShowBalance:choose "show balance"
 ShowBalance --> CheckCardValidation
