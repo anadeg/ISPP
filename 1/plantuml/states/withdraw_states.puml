@@ -4,20 +4,19 @@
 [*] --> ShowOptions: user appears
 
 ShowOptions --> InsertCard: choose "insert card"
-InsertCard --> ShowOptions: card was already inserted
-InsertCard --> ShowOptions: is inserted
+InsertCard --> CheckInserting
+CheckInserting --> ShowOptions: card was already inserted
+CheckInserting --> ShowOptions: is inserted
 
 ShowOptions --> WithdrawCash:choose "withdraw cash"
 WithdrawCash --> CheckCard
 
 state CheckCard{
-[*] --> CheckCardValidation
 CheckCardValidation --> CheckPassword: is valid
 CheckCardValidation --> ShowOptions: is not valid
 }
 
 state CheckPassword{
-[*] --> ComparingPassword
 ComparingPassword --> WrongPassword
 WrongPassword --> ComparingPassword: less than 3 wrong inputs
 WrongPassword --> CardBlocking: more than 3 wrong inputs
@@ -27,36 +26,28 @@ ComparingPassword --> CorrectPassword
 }
 
 CorrectPassword --> EnterCash
-EnterCash --> CheckCurrencyCard
+EnterCash --> CheckHavingCurrencyOnCard
 
-state CheckCurrencyCard{
-[*] --> CheckHavingCurrencyOnCard
 CheckHavingCurrencyOnCard --> ShowOptions: doesn't have such currency
-CheckHavingCurrencyOnCard --> CheckCurrencyATM: has such currency
-}
+CheckHavingCurrencyOnCard --> CheckHavingCurrencyInATM: has such currency
 
-state CheckCurrencyATM{
-[*] --> CheckHavingCurrencyInATM
 CheckHavingCurrencyInATM --> ShowOptions: doesn't have such currency
-CheckHavingCurrencyInATM --> CheckAmountUser: has such currency
-}
+CheckHavingCurrencyInATM --> UserHasEnough: has such currency
 
-state CheckAmountUser{
-[*] --> UserHasEnough
 UserHasEnough --> ShowOptions: no
-UserHasEnough --> CheckAmountATM: yes
-}
+UserHasEnough --> ATMHasEnough: yes
 
-state CheckAmountATM{
-[*] --> ATMHasEnough
 ATMHasEnough --> ShowOptions: no
 ATMHasEnough --> CountBanknotes: yes
-}
 
-state CountBanknotes{
-}
 CountBanknotes --> GiveCash
 GiveCash --> ShowOptions
+
+ShowOptions --> RemoveCard
+RemoveCard --> CheckForInsertedCard
+CheckForInsertedCard --> GiveCardToUser: yes
+GiveCardToUser --> ShowOptions
+CheckForInsertedCard --> ShowOptions: no
 
 'scale 350 width
 '[*] --> NotShooting
