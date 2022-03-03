@@ -1,0 +1,4 @@
+ele; {"EU": 10}
+ala; {"EU": 15}
+olo; {"USD": 10}
+ulu; {"USD": 15}
