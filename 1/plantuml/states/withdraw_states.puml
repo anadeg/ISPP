@@ -48,5 +48,4 @@ RemoveCard --> CheckForInsertedCard
 CheckForInsertedCard --> GiveCardToUser: yes
 GiveCardToUser --> ShowOptions
 CheckForInsertedCard --> ShowOptions: no
-
 @enduml
