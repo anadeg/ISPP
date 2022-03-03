@@ -19,9 +19,9 @@ ComparingPassword --> WrongPassword
 WrongPassword --> ComparingPassword: less than 3 wrong inputs
 WrongPassword --> CardBlocking: more than 3 wrong inputs
 CardBlocking --> ShowOptions
+}
 
 ComparingPassword --> CorrectPassword
-}
 
 CorrectPassword --> EnterCash
 EnterCash --> CheckHavingCurrencyOnCard
@@ -46,4 +46,7 @@ RemoveCard --> CheckForInsertedCard
 CheckForInsertedCard --> GiveCardToUser: yes
 GiveCardToUser --> ShowOptions
 CheckForInsertedCard --> ShowOptions: no
+
+ShowOptions --> Exit: choose "exit"
+Exit --> [*]
 @enduml
