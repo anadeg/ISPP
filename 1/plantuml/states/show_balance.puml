@@ -1,0 +1,37 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+[*] --> ShowOptions: user appears
+
+ShowOptions --> InsertCard: choose "insert card"
+InsertCard --> CheckInserting
+CheckInserting --> ShowOptions: card was already inserted
+CheckInserting --> ShowOptions: is inserted
+
+ShowOptions --> ShowBalance:choose "show balance"
+ShowBalance --> CheckCardValidation
+
+CheckCardValidation --> CheckPassword: is valid
+CheckCardValidation --> ShowOptions: is not valid
+
+state CheckPassword{
+ComparingPassword --> WrongPassword
+WrongPassword --> ComparingPassword: less than 3 wrong inputs
+WrongPassword --> CardBlocking: more than 3 wrong inputs
+CardBlocking --> ShowOptions
+}
+
+ComparingPassword --> CorrectPassword
+
+CorrectPassword --> PrintUserBalance
+PrintUserBalance --> ShowOptions
+
+ShowOptions --> RemoveCard
+RemoveCard --> CheckForInsertedCard
+CheckForInsertedCard --> GiveCardToUser: yes
+GiveCardToUser --> ShowOptions
+CheckForInsertedCard --> ShowOptions: no
+
+ShowOptions --> Exit: choose "exit"
+Exit --> [*]
+@enduml
