@@ -1,7 +1,5 @@
 from typing import TypeGuard, Dict
 
-from exceptions.CardIsBlocked import CardIsBlockedException
-
 
 class Card:
     def __init__(self, number: str, name: str, password: int, balance=None) -> None:
@@ -19,20 +17,17 @@ class Card:
     def password(self) -> int:
         return self.__password
 
-    def check_password(self) -> TypeGuard:
-        try:
-            if not self.__active:
-                raise CardIsBlockedException()
-        except CardIsBlockedException as error:
-            print(error)
-            return False
+    @property
+    def active(self) -> TypeGuard:
+        return self.__active
 
-        tryings = 0
-        while tryings < 3:
+    def check_password(self) -> TypeGuard:
+        attempts = 0
+        while attempts < 3:
             check = int(input("enter password --- "))
-            if check != self.password:
-                tryings += 1
-                print(f"password was incorrect. {3 - tryings} tryings have left")
+            if check != self.__password:
+                attempts += 1
+                print(f"password was incorrect. {3 - attempts} attempts have left")
             else:
                 return True
         self.__active = False
