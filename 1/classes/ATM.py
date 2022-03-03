@@ -57,14 +57,11 @@ class ATM:
             return False
         return Bank.find_card(self.inserted_card)
 
-    def withdraw_money(self) -> List[Banknote]:
+    def withdraw_money(self, currency, cash) -> List[Banknote]:
         if not self.check_card():
             return []
         if not self.inserted_card.check_password():
             return []
-
-        currency, cash = input("enter amount of cash (currency and amount) --- ").split()
-        cash = int(cash)
 
         try:
             if currency not in self.inserted_card.balance.keys():
@@ -107,16 +104,11 @@ class ATM:
             return {}
         return self.inserted_card.balance
 
-    def top_up_phone_balance(self) -> str:
+    def top_up_phone_balance(self, phone_number, currency, cash) -> str:
         if not self.check_card():
             return ""
         if not self.inserted_card.check_password():
             return ""
-
-        phone_number = int(input("input phone number --- "))
-
-        currency, cash = input("enter amount of cash --- ").split()
-        cash = int(cash)
 
         try:
             if currency not in self.inserted_card.balance.keys():
