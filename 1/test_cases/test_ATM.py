@@ -1,6 +1,9 @@
 from unittest import TestCase
+
 from classes.ATM import ATM, Banknote, Card, Bank
 from exceptions.CardIsInserted import CardIsInsertedException
+from exceptions.CardIsNotInserted import CardIsNotInsertedException
+
 
 
 class TestATM(TestCase):
@@ -38,31 +41,107 @@ class TestATM(TestCase):
         self.assertFalse(atm.check_card())
 
     def test_check_card_2(self):
+        atm = ATM()
+        c1 = Card("1111", "me", 1111, {})
+        c1._Card__active = False
+        atm.insert_card(c1)
+        self.assertFalse(atm.check_card())
+
+    def test_check_card_3(self):
         b1 = Bank()
         c1 = Card("1111", "me", 1111, {})
         c2 = Card("2222", "not me", 2222, {})
-        b1._Bank__cards = [c1, c2]
+        b1._Bank__cards = [c2]
         atm = ATM()
         atm.insert_card(c1)
-        self.assertTrue(atm.check_card())
-
-    # def test_withdraw_money(self):
-    #     self.fail()
+        self.assertFalse(atm.check_card())
 
     def test_withdraw_money_1(self):
-        b1 = Bank()
-        c1 = Card("1111", "me", 1111, {})
-        c2 = Card("2222", "not me", 2222, {})
-        b1._Bank__cards = [c1]
         atm = ATM()
-        atm.insert_card(c2)
+        atm.add_money_to_cash_holder({"EU": 1000})
+        b1 = Bank()
+        c1 = Card("1111", "me", 1111, {"USD": 100})
+        b1._Bank__cards = [c1]
+        atm.insert_card(c1)
+        self.assertFalse(atm.withdraw_money("EU", 10))
+
+    def test_withdraw_money_2(self):
+        atm = ATM()
+        atm.add_money_to_cash_holder({"EU": 1000})
+        b1 = Bank()
+        c1 = Card("1111", "me", 1111, {"USD": 100})
+        b1._Bank__cards = [c1]
+        atm.insert_card(c1)
         self.assertFalse(atm.withdraw_money("USD", 10))
 
-    # def test_show_balance(self):
-    #     self.fail()
-    #
-    # def test_top_up_phone_balance(self):
-    #     self.fail()
-    #
-    # def test_remove_card(self):
-    #     self.fail()
+    def test_withdraw_money_3(self):
+        atm = ATM()
+        atm.add_money_to_cash_holder({"USD": 1000})
+        b1 = Bank()
+        c1 = Card("1111", "me", 1111, {"USD": 100})
+        b1._Bank__cards = [c1]
+        atm.insert_card(c1)
+        self.assertFalse(atm.withdraw_money("USD", 500))
+
+    def test_withdraw_money_4(self):
+        atm = ATM()
+        atm.add_money_to_cash_holder({"USD": 100})
+        b1 = Bank()
+        c1 = Card("1111", "me", 1111, {"USD": 1000})
+        b1._Bank__cards = [c1]
+        atm.insert_card(c1)
+        self.assertFalse(atm.withdraw_money("USD", 500))
+
+    def test_withdraw_money_5(self):
+        atm = ATM()
+        atm.add_money_to_cash_holder({"USD": 1000})
+        b1 = Bank()
+        c1 = Card("1111", "me", 1111, {"USD": 100})
+        b1._Bank__cards = [c1]
+        atm.insert_card(c1)
+        self.assertEqual(atm.withdraw_money("USD", 10), [Banknote("USD", 10)])
+
+    def test_show_balance(self):
+        atm = ATM()
+        b1 = Bank()
+        c1 = Card("1111", "me", 1111, {"USD": 100, "EU": 100})
+        b1._Bank__cards = [c1]
+        atm.insert_card(c1)
+        self.assertEqual(atm.show_balance(), {"USD": 100, "EU": 100})
+
+    def test_top_up_phone_balance_1(self):
+        atm = ATM()
+        b1 = Bank()
+        c1 = Card("1111", "me", 1111, {"USD": 100, "EU": 100})
+        b1._Bank__cards = [c1]
+        atm.insert_card(c1)
+        self.assertEqual(atm.top_up_phone_balance("99999", "TR", 10), "YOU DO NOT HAVE SUCH CURRENCY ON THE CARD")
+
+    def test_top_up_phone_balance_2(self):
+        atm = ATM()
+        b1 = Bank()
+        c1 = Card("1111", "me", 1111, {"USD": 100, "EU": 100})
+        b1._Bank__cards = [c1]
+        atm.insert_card(c1)
+        self.assertEqual(atm.top_up_phone_balance("99999", "EU", 1000), "NOT ENOUGH MONEY ON YOUR CARD")
+
+    def test_top_up_phone_balance_3(self):
+        atm = ATM()
+        b1 = Bank()
+        c1 = Card("1111", "me", 1111, {"USD": 100, "EU": 100})
+        b1._Bank__cards = [c1]
+        atm.insert_card(c1)
+        self.assertEqual(atm.top_up_phone_balance("99999", "EU", 50), "you successfully have topped up 99999")
+
+    def test_remove_card_1(self):
+        atm = ATM()
+        e = CardIsNotInsertedException()
+        self.assertEqual(atm.remove_card(), e.massage)
+
+    def test_remove_card_2(self):
+        atm = ATM()
+        b1 = Bank()
+        c1 = Card("1111", "me", 1111, {"USD": 100, "EU": 100})
+        b1._Bank__cards = [c1]
+        atm.insert_card(c1)
+        self.assertEqual(atm.remove_card(), "your card was removed")
