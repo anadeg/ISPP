@@ -24,7 +24,7 @@ class StudentHandler(xml.sax.ContentHandler):
         elif self.current == "other":
             self.other = content
 
-    def endElement(self, name):
+    def endElement(self):
         if self.current == "name":
             self.student_data["name"] = self.name
         elif self.current == "group":
