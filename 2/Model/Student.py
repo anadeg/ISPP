@@ -1,6 +1,7 @@
 class Student:
-    def __init__(self, name, sick, absence, other):
+    def __init__(self, name, group, sick, absence, other):
         self.name = name
+        self.group = group
         self.sick = sick
         self.absence = absence
         self.other = other
