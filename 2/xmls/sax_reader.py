@@ -40,4 +40,3 @@ class StudentHandler(xml.sax.ContentHandler):
         self.student_data = {}
 
         self.current = ""
-
