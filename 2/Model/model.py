@@ -37,3 +37,21 @@ class Model:
     def add_student_to_table(self, student_data):
         s = Student(**student_data)
         bisect.insort(self.table_of_students, s)
+
+    def filter_by_surname(self, surname):
+        surnames_list = [s.name[1] for s in self.table_of_students]
+
+        start_index = bisect.bisect_left(surnames_list, surname)
+        last_index = bisect.bisect_right(surnames_list, surname)
+
+        return self.table_of_students[start_index:last_index]
+
+    def filter_by_group(self, group):
+        student_from_group = []
+
+        for student in self.table_of_students:
+            if student.group == group:
+                student_from_group.append(student)
+
+        return student_from_group
+
