@@ -7,7 +7,7 @@ class StudentHandler(xml.sax.ContentHandler):
         self.student_table = []
         self.student_data = {}
 
-    def startElement(self, name):
+    def startElement(self, name, attrs):
         self.current = name
         if name == "student":
             pass
@@ -24,7 +24,7 @@ class StudentHandler(xml.sax.ContentHandler):
         elif self.current == "other":
             self.other = content
 
-    def endElement(self):
+    def endElement(self, name):
         if self.current == "name":
             self.student_data["name"] = self.name
         elif self.current == "group":
@@ -40,3 +40,4 @@ class StudentHandler(xml.sax.ContentHandler):
         self.student_data = {}
 
         self.current = ""
+
