@@ -7,7 +7,7 @@ class StudentHandler(xml.sax.ContentHandler):
         self.student_table = []
         self.student_data = {}
 
-    def startElement(self, name, attrs):
+    def startElement(self, name):
         self.current = name
         if name == "student":
             pass
