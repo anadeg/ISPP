@@ -3,7 +3,7 @@ import xml.sax
 
 from xmls.sax_reader import StudentHandler
 from xmls.dom_writer import StudentWriter
-from Student import Student
+from student import Student
 
 
 class Model:
