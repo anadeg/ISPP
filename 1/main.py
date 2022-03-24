@@ -33,7 +33,7 @@ def working_with_card(atm: ATM, card: Card) -> None:
                         print(currency, amount)
         case "4":
             if atm.check_card():
-                phone_number = int(input("input phone number --- "))
+                phone_number = input("input phone number --- ")
                 currency, cash = input("enter amount of cash (currency and amount) --- ").split()
                 cash = int(cash)
                 info = atm.top_up_phone_balance(phone_number, currency, cash)
