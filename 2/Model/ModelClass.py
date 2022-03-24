@@ -36,26 +36,8 @@ class Model:
         writer = StudentWriter(file_name)
         for student in self.table_of_students:
             writer.create_student(student.__dict__)
-            writer.add_students_to_xml()
+        writer.add_students_to_xml()
 
     def add_student_to_table(self, student_data):
         s = Student(**student_data)
         bisect.insort(self.table_of_students, s)
-
-
-def main():
-    m = Model([])
-    d1 = {"name": "sdcl", "group": "24", "sick": "0", "absence": "0", "other": "0"}
-    d2 = {"name": "alw", "group": "23", "sick": "12", "absence": "293", "other": "9"}
-    m.add_student_to_table(d1)
-    m.add_student_to_table(d2)
-
-    # m.read_data_from_xml("../xmls/data0.xml")
-    m.write_data_in_xml("../xmls/data2.xml")
-    print(*m.table_of_students, sep="\n========")
-
-
-if __name__ == "__main__":
-    main()
-
-
