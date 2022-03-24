@@ -21,9 +21,6 @@ class Model:
 
         data = {}
         for student_data in handler.student_table:
-            # print(student_data)
-            # self.add_student_to_table(student_data)
-
             while student_data:
                 data.update(student_data)
                 break
