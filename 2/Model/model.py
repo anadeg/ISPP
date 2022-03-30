@@ -9,6 +9,7 @@ from student import Student
 class Model:
     def __init__(self, table_of_students):
         self.table_of_students = []
+        self.deleted_count = 0
         for student in table_of_students:
             bisect.insort(self.table_of_students, student)
 
@@ -24,7 +25,7 @@ class Model:
                 data.update(student_data)
                 break
             else:
-                if data:
+                if len(data) == 5:
                     self.add_student_to_table(data)
                     data = {}
 
@@ -38,20 +39,39 @@ class Model:
         s = Student(**student_data)
         bisect.insort(self.table_of_students, s)
 
-    def filter_by_surname(self, surname):
-        surnames_list = [s.name[1] for s in self.table_of_students]
+    @staticmethod
+    def filter_by_surname(table_of_students, surname):
+        surnames_list = [s.name[1] for s in table_of_students]
 
         start_index = bisect.bisect_left(surnames_list, surname)
         last_index = bisect.bisect_right(surnames_list, surname)
 
-        return self.table_of_students[start_index:last_index]
+        return table_of_students[start_index:last_index]
 
-    def filter_by_group(self, group):
+    @staticmethod
+    def filter_by_group(table_of_students, group):
         student_from_group = []
 
-        for student in self.table_of_students:
+        for student in table_of_students:
             if student.group == group:
                 student_from_group.append(student)
 
         return student_from_group
 
+    @staticmethod
+    def filter_by_reason(table_of_students, reason, min_amount, max_amount):
+        students_properties_dict = [student.__dict__ for student in table_of_students]
+        result = []
+        for i, student_dict in enumerate(students_properties_dict):
+            if min_amount <= student_dict[reason] <= max_amount:
+                result.append(table_of_students[i])
+
+        return result
+
+    def delete_students_from_table(self, black_list):
+        for student in black_list:
+            try:
+                self.table_of_students.remove(student)
+                self.deleted_count += 1
+            except Exception:
+                pass
