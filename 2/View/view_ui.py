@@ -351,6 +351,26 @@ MDScreen:
                     
         MDNavigationDrawer:
             id: drawer
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: '8dp'
+                padding: '8dp'
+                MDLabel:
+                    size_hint_y: 0.1
+                    text: "Choose option"
+                    
+                ScrollView:
+                    MDList:
+                        OneLineIconListItem:
+                            text: "item 1"
+                            IconLeftWidget:
+                                icon: 'language-python'
+                        OneLineIconListItem:
+                            text: "upload"
+                            IconLeftWidget:
+                                icon: 'file-upload'
+                        OneLineListItem:
+                            text: "item 1"
                 
     
 """
