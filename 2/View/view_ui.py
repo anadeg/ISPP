@@ -338,18 +338,17 @@
 #                 id: content_drawer
 # '''
 text_ui = """
-Screen:
-    NavigationLayout:
+MDScreen:
+    MDNavigationLayout:
         ScreenManager:
-            Screen:
-                BoxLayout:
+            MDScreen:
+                MDBoxLayout:
                     orientation: 'vertical'
                     MDToolbar:
                         title: 'demo app'
-                        left_action_items: [["menu", lambda x: drawer.toggle_drawer()]]
-                    MDLabel:
-                        text: 'fuck it'
-                        halign: 'center'
+                        left_action_items: [["menu", lambda x: drawer.set_state("open")]]
+                    Widget:
+                    
         MDNavigationDrawer:
             id: drawer
                 
