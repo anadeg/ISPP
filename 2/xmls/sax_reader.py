@@ -40,3 +40,16 @@ class StudentHandler(xml.sax.ContentHandler):
         self.student_data = {}
 
         self.current = ""
+
+
+def main():
+    handler = StudentHandler()
+    parser = xml.sax.make_parser()
+    parser.setContentHandler(handler)
+    parser.parse("data0.xml")
+    for student_data in handler.student_table:
+        print(student_data)
+
+
+if __name__ == "__main__":
+    main()
