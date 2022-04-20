@@ -85,9 +85,16 @@ class Model:
 def main():
     s = Student("john", "24", "0", "0", "0")
     m = Model([])
-    m.write_data_in_xml("../xmls/data0.xml", [s])
     relative_path = "../xmls/"
-    m.read_data_from_xml("".join([relative_path, "data0.xml"]))
+    path_to_file = ''.join([relative_path, "data0.xml"])
+    try:
+        m.write_data_in_xml(path_to_file, [s])
+    except ValueError:
+        pass
+    try:
+        m.read_data_from_xml(path_to_file)
+    except ValueError:
+        pass
     print(*m.table_of_students)
 
 
