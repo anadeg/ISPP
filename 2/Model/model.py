@@ -1,9 +1,13 @@
 import bisect
 import xml.sax
+import os
+
 
 from xmls.sax_reader import StudentHandler
 from xmls.dom_writer import StudentWriter
 from student import Student
+
+
 
 
 class Model:
@@ -29,9 +33,10 @@ class Model:
                     self.add_student_to_table(data)
                     data = {}
 
-    def write_data_in_xml(self, file_name):
+    @staticmethod
+    def write_data_in_xml(file_name, table_with_tables):
         writer = StudentWriter(file_name)
-        for student in self.table_of_students:
+        for student in table_with_tables:
             writer.create_student(student.__dict__)
         writer.add_students_to_xml()
 
@@ -75,3 +80,16 @@ class Model:
                 self.deleted_count += 1
             except Exception:
                 pass
+
+
+def main():
+    s = Student("john", "24", "0", "0", "0")
+    m = Model([])
+    m.write_data_in_xml("../xmls/data0.xml", [s])
+    relative_path = "../xmls/"
+    m.read_data_from_xml("".join([relative_path, "data0.xml"]))
+    print(*m.table_of_students)
+
+
+if __name__ == "__main__":
+    main()
