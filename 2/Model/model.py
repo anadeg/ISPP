@@ -6,14 +6,12 @@ import os
 from xmls.sax_reader import StudentHandler
 from xmls.dom_writer import StudentWriter
 from student import Student
-
-
+from Controller.controller import Controller
 
 
 class Model:
     def __init__(self, table_of_students):
         self.table_of_students = []
-        self.deleted_count = 0
         for student in table_of_students:
             bisect.insort(self.table_of_students, student)
 
@@ -63,6 +61,8 @@ class Model:
 
         return student_from_group
 
+    # no reason to convert str to int
+    # python already compares it properly
     @staticmethod
     def filter_by_reason(table_of_students, reason, min_amount, max_amount):
         students_properties_dict = [student.__dict__ for student in table_of_students]
@@ -77,7 +77,6 @@ class Model:
         for student in black_list:
             try:
                 self.table_of_students.remove(student)
-                self.deleted_count += 1
             except Exception:
                 pass
 
@@ -92,6 +91,7 @@ def main():
     except ValueError:
         pass
     try:
+        m.table_of_students.clear()
         m.read_data_from_xml(path_to_file)
     except ValueError:
         pass
