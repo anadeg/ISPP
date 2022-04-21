@@ -1,63 +1,71 @@
 from kivy.lang import Builder
+from kivy.metrics import dp
 from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
 from kivymd.uix.button import MDRectangleFlatButton
+from kivymd.uix.datatables import MDDataTable
+from kivymd.uix.dialog import MDDialog
 
-from view_ui import text_ui, enter_path, enter_path_button, path_dialog
-from screens_ui import screens, screens2
+from screens_ui import content_of_entering_path, using_navigation
+from generate_table import generate_table
 
 
-# class ShowStudentsScreen(Screen):
-#     pass
-#
-#
-# class InputPathScreen(Screen):
-#     pass
+class Content(BoxLayout):
+    pass
 
 
 class ContentNavigationDrawer(BoxLayout):
-    screen_manager = ObjectProperty()
-    drawer = ObjectProperty()
+    pass
 
 
-class TestNavigationApp(MDApp):
+class MainApp(MDApp):
     def build(self):
-        return Builder.load_string(screens2)
+        screen = Screen()
+        navigation = Builder.load_string(using_navigation)
+        # input_path_dialog = Builder.load_string(content_of_entering_path)
+        # return Builder.load_string(content_of_entering_path)
+        data_table = MDDataTable(
+            pos_hint={'center_x': 0.5, 'center_y': 0.5},
+            size_hint=(0.95, 0.8),
+            use_pagination=True,
+            column_data=[
+                ("Name", dp(60)),
+                ("Group", dp(25)),
+                ("Sick", dp(25)),
+                ("Absent", dp(25)),
+                ("Other", dp(25)),
+            ]
+        )
+        data = generate_table(60)
+        data_table.row_data = data
 
-# sm = ScreenManager()
-# sm.add_widget(ShowStudentsScreen(name='table'))
-# sm.add_widget(InputPathScreen(name='input path'))
-#
-#
-# class StudentApp(MDApp):
-#     def build(self):
-#         # self.screen = Screen()
-#         #
-#         # self.theme_cls.primary_palette = "Green"
-#         # # self.entering_button = MDRectangleFlatButton(
-#         # #                                             text="show",
-#         # #                                             pos_hint={"center_x": 0.5, "center_y": 0.4},
-#         # #                                             on_release=self.show_path
-#         # #                                             )
-#         # self.enter_path_button = Builder.load_string(enter_path_button)
-#         # self.enter_path = Builder.load_string(enter_path)
-#         #
-#         # self.screen.add_widget(self.enter_path)
-#         # self.screen.add_widget(self.enter_path_button)
-#         # return self.screen
-#         screen = Builder.load_string(screens)
-#         return screen
-#
-#     def show_path(self, obj):
-#         input_path_text = self.enter_path.text
-#         self.dialog = Builder.load_string(path_dialog)
-#         self.screen.add_widget(self.dialog)
-#         self.dialog.open()
-#
-#     def close_dialog(self, obj):
-#         self.dialog.dismiss()
+        screen.add_widget(data_table)
+        screen.add_widget(navigation)
+        # screen.add_widget(input_path_dialog)
+        return screen
+
+    def open_file_name_dialog(self):
+        content = Builder.load_string(content_of_entering_path)
+        self.file_name_dialog = MDDialog(
+            title='enter file name',
+            content_cls=Content(),
+            type="custom",
+            buttons=[
+                MDRectangleFlatButton(
+                    text='enter',
+                    theme_text_color='Custom',
+                    text_color=self.theme_cls.primary_color,
+                    on_release=self.close_enter_path_dialog
+                )
+            ]
+        )
+        self.file_name_dialog.open()
 
 
-TestNavigationApp().run()
+    def close_enter_path_dialog(self, obj):
+        self.file_name_dialog.dismiss()
+
+
+MainApp().run()
