@@ -18,7 +18,7 @@ def generate_table(number_of_rows):
         name = choice(names)
         last_name = choice(last_names)
         full_name = " ".join([name, last_name])
-        group = randint(10, 90)
+        group = randint(10, 20)
         sick = randint(0, 100)
         absent = randint(0, 100)
         other = randint(0, 100)
