@@ -8,6 +8,8 @@ from kivymd.uix.button import MDRectangleFlatButton
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.dialog import MDDialog
 
+from Controller.controller import Controller
+
 from screens_ui import content_of_entering_path, using_navigation
 from generate_table import generate_table
 
@@ -21,6 +23,10 @@ class ContentNavigationDrawer(BoxLayout):
 
 
 class MainApp(MDApp):
+    def __init__(self, controller, **kwargs):
+        super().__init__(**kwargs)
+        self.controller = controller
+
     def build(self):
         screen = Screen()
         navigation = Builder.load_string(using_navigation)
@@ -31,7 +37,7 @@ class MainApp(MDApp):
             size_hint=(0.95, 0.8),
             use_pagination=True,
             column_data=[
-                ("Name", dp(60)),
+                ("Full Name", dp(60)),
                 ("Group", dp(25)),
                 ("Sick", dp(25)),
                 ("Absent", dp(25)),
@@ -43,7 +49,6 @@ class MainApp(MDApp):
 
         screen.add_widget(data_table)
         screen.add_widget(navigation)
-        # screen.add_widget(input_path_dialog)
         return screen
 
     def open_file_name_dialog(self):
@@ -63,6 +68,38 @@ class MainApp(MDApp):
         )
         self.file_name_dialog.open()
 
+    # view calls controller
+    # controller gives model path and asks to give table
+    # controller returns table
+    # controller gives table as MDDataTable argument to view
+    def get_students_table_by_path(self):
+        pass
+
+    # view gives controller filter settings
+    # use all not empty fields as filter modes
+    # controller gives model modes
+    # model returns filtered data (as new table)
+    # controller gives data to view MDDialog
+    def get_filtered_students(self, *args):
+        pass
+
+    # calls filter through controller
+    # controller returns table of student
+    # show it in MDDialog
+    def show_filtered_students(self, *args):
+        pass
+
+    # calls filter through controller
+    # controller returns table of student
+    # count deleted students
+    def delete_students(self, *args):
+        pass
+
+    # view gives data to controller
+    # controller asks model to make student
+    # student is added to table
+    def create_new_student(self, *args):
+        pass
 
     def close_enter_path_dialog(self, obj):
         self.file_name_dialog.dismiss()
