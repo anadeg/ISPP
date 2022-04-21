@@ -6,7 +6,7 @@ import os
 from xmls.sax_reader import StudentHandler
 from xmls.dom_writer import StudentWriter
 from student import Student
-from Controller.controller import Controller
+# from Controller.controller import Controller
 
 
 class Model:
@@ -15,11 +15,19 @@ class Model:
         for student in table_of_students:
             bisect.insort(self.table_of_students, student)
 
+    @staticmethod
+    def get_path_to_file(file_name):
+        relative_path = "../xmls/"                  # path to folder with files
+        return ''.join([relative_path, file_name])
+
     def read_data_from_xml(self, file_name):
+        path_to_file = Model.get_path_to_file(file_name)
+        self.table_of_students.clear()
+
         handler = StudentHandler()
         parser = xml.sax.make_parser()
         parser.setContentHandler(handler)
-        parser.parse(file_name)
+        parser.parse(path_to_file)
 
         data = {}
         for student_data in handler.student_table:
@@ -32,9 +40,10 @@ class Model:
                     data = {}
 
     @staticmethod
-    def write_data_in_xml(file_name, table_with_tables):
-        writer = StudentWriter(file_name)
-        for student in table_with_tables:
+    def write_data_in_xml(file_name, table_with_new_student):
+        path_to_file = Model.get_path_to_file(file_name)
+        writer = StudentWriter(path_to_file)
+        for student in table_with_new_student:
             writer.create_student(student.__dict__)
         writer.add_students_to_xml()
 
@@ -72,6 +81,27 @@ class Model:
                 result.append(table_of_students[i])
 
         return result
+
+    def filters(self, name_filter, group_filter, sick_interval, absent_interval, other_interval):
+        reasons = ["sick", "absent", "other"]
+        reasons_filters = [sick_interval, absent_interval, other_interval]
+        filtered_table = self.table_of_students
+        if not name_filter:
+            filtered_table = self.filter_by_surname(filtered_table, name_filter)
+        if not group_filter:
+            filtered_table = self.filter_by_group(filtered_table, group_filter)
+        for i, given_filter in enumerate(reasons_filters):
+            if not given_filter:
+                min_value, max_value = Model.get_min_max(reasons_filters[i])
+                filtered_table = self.filter_by_reason(filtered_table, reasons[i], min_value, max_value)
+        return filtered_table
+
+    @staticmethod
+    def get_min_max(reason_string):
+        reason_string = reason_string.replace(" ", "")
+        cleared_string = reason_string.split("<=")
+        min_value, max_value = cleared_string[0], cleared_string[-1]
+        return min_value, max_value
 
     def delete_students_from_table(self, black_list):
         for student in black_list:
