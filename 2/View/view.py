@@ -23,15 +23,14 @@ class ContentNavigationDrawer(BoxLayout):
 
 
 class MainApp(MDApp):
-    def __init__(self, controller, **kwargs):
+    # None to run without conflicts
+    def __init__(self, controller=None, **kwargs):
         super().__init__(**kwargs)
         self.controller = controller
 
     def build(self):
         screen = Screen()
         navigation = Builder.load_string(using_navigation)
-        # input_path_dialog = Builder.load_string(content_of_entering_path)
-        # return Builder.load_string(content_of_entering_path)
         data_table = MDDataTable(
             pos_hint={'center_x': 0.5, 'center_y': 0.5},
             size_hint=(0.95, 0.8),
@@ -85,14 +84,14 @@ class MainApp(MDApp):
 
     # calls filter through controller
     # controller returns table of student
-    # show it in MDDialog
+    # shows it in MDDialog
     def show_filtered_students(self, *args):
         pass
 
     # calls filter through controller
     # controller returns table of student
-    # count deleted students
-    def delete_students(self, *args):
+    # counts deleted students
+    def show_deleted_students(self, *args):
         pass
 
     # view gives data to controller
