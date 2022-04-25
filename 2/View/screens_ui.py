@@ -22,7 +22,7 @@ Screen:
                 text: "enter path"
                 on_press: 
                     root.drawer.set_state("close")
-                    app.open_file_name_dialog()
+                    app.open_file_name_dialog(app.get_students_table_by_path)
                 IconLeftWidget:
                     icon: 'file-multiple'
             OneLineIconListItem:
