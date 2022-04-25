@@ -19,19 +19,27 @@ Screen:
     ScrollView:
         MDList:
             OneLineIconListItem:
-                text: "enter path"
+                text: "enter file name"
                 on_press: 
                     root.drawer.set_state("close")
                     app.open_file_name_dialog(app.get_students_table_by_path)
                 IconLeftWidget:
-                    icon: 'file-multiple'
+                    icon: 'file-multiple-outline'
             OneLineIconListItem:
-                text: "filter student"
+                text: "filter students"
                 on_press: 
                     root.drawer.set_state("close")
-                    app.open_input_student_dialog(app.get_filtered_students)
+                    app.open_input_student_dialog(app.show_filtered_students)
                 IconLeftWidget:
-                    icon: 'filter'
+                    icon: 'filter-outline'
+                    
+            OneLineIconListItem:
+                text: "delete students"
+                on_press: 
+                    root.drawer.set_state("close")
+                    app.open_input_student_dialog(app.show_deleted_students)
+                IconLeftWidget:
+                    icon: 'delete-outline'
                     
 <Content>:
     orientation: 'vertical'
@@ -47,7 +55,7 @@ Screen:
         
         
 <TextField@MDTextField>:
-    size_hint: 0.5, 0.1
+    size_hint: 0.9, 0.1
     input_type: "text"
     
     
@@ -69,7 +77,7 @@ Screen:
 
     TextField:
         id: input_full_name
-        hint_text: "enter full name"
+        hint_text: "enter last name"
 
     TextField:
         id: input_group
@@ -92,6 +100,5 @@ Screen:
         hint_text: "enter other"
         helper_text: "enter interval like 10 <= n <= 34"
         helper_text_mode: 'on_focus'
-        
-                    
+
 """
