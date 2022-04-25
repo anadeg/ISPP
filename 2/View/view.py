@@ -23,6 +23,10 @@ class ContentNavigationDrawer(BoxLayout):
     pass
 
 
+class StudentDataDialog(BoxLayout):
+    pass
+
+
 class MainApp(MDApp):
     # None to run without conflicts
     def __init__(self, controller=None, **kwargs):
