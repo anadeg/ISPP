@@ -11,8 +11,7 @@ from kivymd.uix.dialog import MDDialog
 from Controller.controller import Controller
 from Model.model import Model
 
-from screens_ui import content_of_entering_path, using_navigation
-from generate_table import generate_table
+from screens_ui import using_navigation
 
 
 class Content(BoxLayout):
