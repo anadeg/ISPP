@@ -10,7 +10,7 @@ from Model.student import Student
 
 
 class Model:
-    def __init__(self, table_of_students):
+    def __init__(self, table_of_students=[]):
         self.table_of_students = []
         for student in table_of_students:
             bisect.insort(self.table_of_students, student)
