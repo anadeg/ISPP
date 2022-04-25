@@ -25,6 +25,13 @@ Screen:
                     app.open_file_name_dialog()
                 IconLeftWidget:
                     icon: 'file-multiple'
+            OneLineIconListItem:
+                text: "filter student"
+                on_press: 
+                    root.drawer.set_state("close")
+                    app.open_input_student_dialog(app.get_filtered_students)
+                IconLeftWidget:
+                    icon: 'filter'
                     
 <Content>:
     orientation: 'vertical'
