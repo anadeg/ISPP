@@ -36,7 +36,7 @@ class MainApp(MDApp):
     def build(self):
         screen = Screen()
         navigation = Builder.load_string(using_navigation)
-        data_table = MDDataTable(
+        self.data_table = MDDataTable(
             pos_hint={'center_x': 0.5, 'center_y': 0.5},
             size_hint=(0.95, 0.8),
             use_pagination=True,
@@ -51,7 +51,7 @@ class MainApp(MDApp):
         data = generate_table(60)
         data_table.row_data = data
 
-        screen.add_widget(data_table)
+        screen.add_widget(self.data_table)
         screen.add_widget(navigation)
         return screen
 
