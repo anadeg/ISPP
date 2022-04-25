@@ -7,13 +7,22 @@ class Controller:
     def __init__(self, model=None):
         self.model = model
 
+    # def get_student_table(self):
+    #     return self.table_convertion(self.model.table_of_students)
+
+    # @staticmethod
+    # def table_convertion(model_table):
+    #     result = []
+    #     for student in model_table:
+    #         result.append([*student.__dict__.values()])
+    #     return result
+
     # returns downloaded table of students
     def download_students(self, file_name):
         result = []
         try:
             self.model.read_data_from_xml(file_name)
-            for student in self.model.table_of_students:
-                result.append([*student.__dict__.values()])
+            result = self.model.table_of_students
         except ValueError:
             pass
         return result
@@ -29,10 +38,8 @@ class Controller:
 
     def filters(self, name, group, sick_interval, absent_interval, other_interval):
         result = \
-            self.model.filters(self, name, group, sick_interval, absent_interval, other_interval)
+            self.model.filters(name, group, sick_interval, absent_interval, other_interval)
+        return result
 
-    def delete_students(self, name, group, sick_interval, absent_interval, other_interval):
-        return len(self.model.filters(self,  name, group, sick_interval, absent_interval, other_interval))
-
-    def filtered_students(self, name, group, sick_interval, absent_interval, other_interval):
-        return self.model.filters(self,  name, group, sick_interval, absent_interval, other_interval)
+    def delete_students(self, black_list):
+        return self.model.delete_students_from_table(black_list)
