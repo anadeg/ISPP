@@ -6,6 +6,7 @@ content_of_entering_path = """
     height: '40dp'
     
     MDTextField:
+        id: file
         hint_text: 'enter file name'
         helper_text: 'file must be in folder "xmls"'
         helper_text_mode: 'on_focus'
