@@ -5,8 +5,7 @@ import os
 
 from xmls.sax_reader import StudentHandler
 from xmls.dom_writer import StudentWriter
-from Model.student import Student
-# from Controller.controller import Controller
+from View.generate_table import generate_table
 
 
 class Model:
@@ -48,24 +47,26 @@ class Model:
         writer.add_students_to_xml()
 
     def add_student_to_table(self, student_data):
-        s = Student(**student_data)
-        bisect.insort(self.table_of_students, s)
+        bisect.insort(self.table_of_students, [*student_data.values()])
 
     @staticmethod
     def filter_by_surname(table_of_students, surname):
-        surnames_list = [s.name[1] for s in table_of_students]
+        # surnames_list = [s[0].split()[-1] for s in table_of_students]
+        result = []
+        # start_index = bisect.bisect_left(surnames_list, surname)
+        # last_index = bisect.bisect_right(surnames_list, surname)
+        for student in table_of_students:
+            if student[0].split()[-1] == surname:
+                result.append(student)
 
-        start_index = bisect.bisect_left(surnames_list, surname)
-        last_index = bisect.bisect_right(surnames_list, surname)
-
-        return table_of_students[start_index:last_index]
+        return result
 
     @staticmethod
     def filter_by_group(table_of_students, group):
         student_from_group = []
 
         for student in table_of_students:
-            if student.group == group:
+            if student[1] == group:
                 student_from_group.append(student)
 
         return student_from_group
@@ -74,11 +75,13 @@ class Model:
     # python already compares it properly
     @staticmethod
     def filter_by_reason(table_of_students, reason, min_amount, max_amount):
-        students_properties_dict = [student.__dict__ for student in table_of_students]
+        # students_properties_dict = [student.__dict__ for student in table_of_students]
+        reasons = ["sick", "absent", "other"]
+        reason_index = reasons.index(reason) + 2    # because of name and group
         result = []
-        for i, student_dict in enumerate(students_properties_dict):
-            if min_amount <= student_dict[reason] <= max_amount:
-                result.append(table_of_students[i])
+        for student in table_of_students:
+            if min_amount <= student[reason_index] <= max_amount:
+                result.append(student)
 
         return result
 
@@ -86,14 +89,14 @@ class Model:
         reasons = ["sick", "absent", "other"]
         reasons_filters = [sick_interval, absent_interval, other_interval]
         filtered_table = self.table_of_students
-        if not name_filter:
-            filtered_table = self.filter_by_surname(filtered_table, name_filter)
-        if not group_filter:
-            filtered_table = self.filter_by_group(filtered_table, group_filter)
+        if name_filter:
+            filtered_table = Model.filter_by_surname(filtered_table, name_filter)
+        if group_filter:
+            filtered_table = Model.filter_by_group(filtered_table, group_filter)
         for i, given_filter in enumerate(reasons_filters):
-            if not given_filter:
+            if given_filter:
                 min_value, max_value = Model.get_min_max(reasons_filters[i])
-                filtered_table = self.filter_by_reason(filtered_table, reasons[i], min_value, max_value)
+                filtered_table = Model.filter_by_reason(filtered_table, reasons[i], min_value, max_value)
         return filtered_table
 
     @staticmethod
@@ -104,24 +107,29 @@ class Model:
         return min_value, max_value
 
     def delete_students_from_table(self, black_list):
-        for student in black_list:
-            try:
-                self.table_of_students.remove(student)
-            except Exception:
-                pass
-
+        deleted_indexes = []
+        try:
+            for student in black_list:
+                index = self.table_of_students.index(student)
+                deleted_indexes.append(index)
+            for index in deleted_indexes:
+                self.table_of_students.pop(index)
+        except Exception:
+            pass
+        return deleted_indexes
 
 def main():
-    s = Student("john", "24", "0", "0", "0")
     m = Model([])
     relative_path = "../xmls/"
-    path_to_file = ''.join([relative_path, "data0.xml"])
+    path_to_file = ''.join([relative_path, "data2.xml"])
+    # table = generate_table(50)
+    # m.write_data_in_xml(path_to_file, table)
+    # try:
+    #     m.write_data_in_xml(path_to_file, [s])
+    # except ValueError:
+    #     pass
     try:
-        m.write_data_in_xml(path_to_file, [s])
-    except ValueError:
-        pass
-    try:
-        m.table_of_students.clear()
+        # m.table_of_students.clear()
         m.read_data_from_xml(path_to_file)
     except ValueError:
         pass
