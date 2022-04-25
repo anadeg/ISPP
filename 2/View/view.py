@@ -73,6 +73,23 @@ class MainApp(MDApp):
         )
         self.file_name_dialog.open()
 
+    def open_input_student_dialog(self, function_name):
+        self.input_student_dialog = MDDialog(
+            title='input student info',
+            content_cls=StudentDataDialog(),
+            type="custom",
+            buttons=[
+                MDRectangleFlatButton(
+                    text='enter',
+                    theme_text_color='Custom',
+                    text_color=self.theme_cls.primary_color,
+                    # on_release=self.get_students_table_by_path
+                    on_release=function_name
+                )
+            ]
+        )
+        self.input_student_dialog.open()
+
     # view calls controller
     # controller gives model path and asks to give table
     # controller returns table
