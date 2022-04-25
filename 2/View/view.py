@@ -66,7 +66,7 @@ class MainApp(MDApp):
                     text='enter',
                     theme_text_color='Custom',
                     text_color=self.theme_cls.primary_color,
-                    on_release=self.close_enter_path_dialog
+                    on_release=self.get_students_table_by_path
                 )
             ]
         )
@@ -76,8 +76,11 @@ class MainApp(MDApp):
     # controller gives model path and asks to give table
     # controller returns table
     # controller gives table as MDDataTable argument to view
-    def get_students_table_by_path(self):
-        pass
+    def get_students_table_by_path(self, obj):
+        self.file_name_dialog.dismiss()
+        path = self.file_name_dialog.content_cls.ids.file.text
+        data = self.controller.download_students(path)
+        self.data_table.row_data = data
 
     # view gives controller filter settings
     # use all not empty fields as filter modes
