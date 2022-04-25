@@ -5,7 +5,7 @@ import os
 
 from xmls.sax_reader import StudentHandler
 from xmls.dom_writer import StudentWriter
-from student import Student
+from Model.student import Student
 # from Controller.controller import Controller
 
 
