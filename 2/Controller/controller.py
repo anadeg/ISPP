@@ -4,9 +4,8 @@
 
 class Controller:
     # None to run without conflicts
-    def __init__(self, model=None, view=None):
+    def __init__(self, model=None):
         self.model = model
-        self.view = view
 
     # returns downloaded table of students
     def download_students(self, file_name):
