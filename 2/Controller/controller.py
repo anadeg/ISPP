@@ -9,11 +9,14 @@ class Controller:
 
     # returns downloaded table of students
     def download_students(self, file_name):
+        result = []
         try:
             self.model.read_data_from_xml(file_name)
+            for student in self.model.table_of_students:
+                result.append([*student.__dict__.values()])
         except ValueError:
-            return []
-        return self.model.table_of_students
+            pass
+        return result
 
     def upload_student(self, file_name, new_student):
         try:
