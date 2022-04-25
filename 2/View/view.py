@@ -56,8 +56,7 @@ class MainApp(MDApp):
         screen.add_widget(navigation)
         return screen
 
-    def open_file_name_dialog(self):
-        content = Builder.load_string(content_of_entering_path)
+    def open_file_name_dialog(self, function_name):
         self.file_name_dialog = MDDialog(
             title='enter file name',
             content_cls=Content(),
@@ -67,7 +66,8 @@ class MainApp(MDApp):
                     text='enter',
                     theme_text_color='Custom',
                     text_color=self.theme_cls.primary_color,
-                    on_release=self.get_students_table_by_path
+                    # on_release=self.get_students_table_by_path
+                    on_release=function_name
                 )
             ]
         )
