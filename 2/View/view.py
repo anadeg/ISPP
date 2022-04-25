@@ -31,6 +31,8 @@ class MainApp(MDApp):
     def __init__(self, controller=None, **kwargs):
         super().__init__(**kwargs)
         self.controller = controller
+        self.data_table = ObjectProperty()
+        self.file_name_dialog = ObjectProperty()
 
     def build(self):
         screen = Screen()
