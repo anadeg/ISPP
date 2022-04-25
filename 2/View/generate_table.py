@@ -1,4 +1,5 @@
 from random import choice, randint
+import bisect
 
 
 def generate_table(number_of_rows):
@@ -22,6 +23,6 @@ def generate_table(number_of_rows):
         sick = randint(0, 100)
         absent = randint(0, 100)
         other = randint(0, 100)
-        res.append([full_name, group, sick, absent, other])
-
+        # res.append([full_name, group, sick, absent, other])
+        bisect.insort(res, [full_name, group, sick, absent, other])
     return res
