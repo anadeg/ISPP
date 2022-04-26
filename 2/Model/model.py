@@ -1,18 +1,15 @@
 import bisect
 import xml.sax
-import os
 
 
 from xmls.sax_reader import StudentHandler
 from xmls.dom_writer import StudentWriter
-from View.generate_table import generate_table
 
-# add characterictics ("name", "group" etc.) to class
-# remade methods to use it
 
 
 class Model:
     def __init__(self, table_of_students=[]):
+        self.characteristics = ["name", "group", "sick", "absent", "other"]
         self.table_of_students = []
         for student in table_of_students:
             bisect.insort(self.table_of_students, student)
@@ -38,16 +35,14 @@ class Model:
                 break
             else:
                 if len(data) == 5:
-                    self.add_student_to_table(data)
+                    self.add_student_to_table(list(data.values()))
                     data = {}
 
-    @staticmethod
-    def write_data_in_xml(file_name, table_with_new_student):
-        characteristics = ["name", "group", "sick", "absent", "other"]
+    def write_data_in_xml(self, file_name, table_with_new_student):
         path_to_file = Model.get_path_to_file(file_name)
         writer = StudentWriter(path_to_file)
         for student in table_with_new_student:
-            student_dict = {characteristics[i]: student[i] for i in range(len(student))}
+            student_dict = {self.characteristics[i]: student[i] for i in range(len(student))}
             writer.create_student(student_dict)
         writer.add_students_to_xml()
 
@@ -76,13 +71,9 @@ class Model:
 
         return student_from_group
 
-    # no reason to convert str to int
-    # python already compares it properly
-    @staticmethod
-    def filter_by_reason(table_of_students, reason, min_amount, max_amount):
+    def filter_by_reason(self, table_of_students, reason, min_amount, max_amount):
         # students_properties_dict = [student.__dict__ for student in table_of_students]
-        reasons = ["sick", "absent", "other"]
-        reason_index = reasons.index(reason) + 2    # because of name and group
+        reason_index = self.characteristics.index(reason)    # because of name and group
         result = []
         for student in table_of_students:
             if min_amount <= student[reason_index] <= max_amount:
@@ -101,7 +92,7 @@ class Model:
         for i, given_filter in enumerate(reasons_filters):
             if given_filter:
                 min_value, max_value = Model.get_min_max(reasons_filters[i])
-                filtered_table = Model.filter_by_reason(filtered_table, reasons[i], min_value, max_value)
+                filtered_table = self.filter_by_reason(filtered_table, reasons[i], min_value, max_value)
         return filtered_table
 
     @staticmethod
@@ -115,27 +106,25 @@ class Model:
         deleted_indexes = []
         try:
             for student in black_list:
-                index = self.table_of_students.index(student)
-                deleted_indexes.append(index)
-            for index in deleted_indexes:
-                self.table_of_students.pop(index)
+                self.table_of_students.remove(student)
         except Exception:
             pass
-        return deleted_indexes
+        return
+
 
 def main():
     m = Model([])
     relative_path = "../xmls/"
-    path_to_file = ''.join([relative_path, "data2.xml"])
+    # path_to_file = ''.join([relative_path, "data3.xml"])
     # table = generate_table(50)
     # m.write_data_in_xml(path_to_file, table)
     # try:
-    #     m.write_data_in_xml(path_to_file, [s])
+    #     m.write_data_in_xml("data3.xml", [["me", "23", "10", "10", "10"]])
     # except ValueError:
     #     pass
     try:
         # m.table_of_students.clear()
-        m.read_data_from_xml(path_to_file)
+        m.read_data_from_xml("data3.xml")
     except ValueError:
         pass
     print(*m.table_of_students)
