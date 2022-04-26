@@ -157,11 +157,8 @@ class MainApp(MDApp):
 
     def show_deleted_students(self, obj):
         data = self.get_filtered_students(obj)
-        indexes = self.controller.delete_students(data)
-        # new_table = self.controller.get_student_table()
-
-        for index in indexes:
-            self.data_table.remove_row(self.data_table.row_data[index])
+        self.controller.delete_students(data)
+        new_table = self.controller.get_student_table()
 
         if data:
             text = f"{len(data)} students were deleted"
@@ -169,33 +166,53 @@ class MainApp(MDApp):
             text = "No student was deleted"
 
         self.deleted_student_dialog = MDDialog(
-            title="Deleted Information",
-            text=text,
-            buttons=[
-                MDRectangleFlatButton(
-                    text='Close',
-                    theme_text_color='Custom',
-                    text_color=self.theme_cls.primary_color,
-                    on_release=lambda _: self.deleted_student_dialog.dismiss()
-                )
-            ]
-        )
+                title="Deleted Information",
+                text=text,
+                buttons=[
+                    MDRectangleFlatButton(
+                        text='Close',
+                        theme_text_color='Custom',
+                        text_color=self.theme_cls.primary_color,
+                        on_release=lambda _: self.update_data_table(new_table),
+                    )
+                ]
+            )
         self.deleted_student_dialog.open()
 
-    # view gives data to controller
-    # controller asks model to make student
-    # student is added to table
-    def create_new_student(self, *args):
-        pass
-
-    def close_enter_path_dialog(self, obj):
-        self.file_name_dialog.dismiss()
-
-    def close_student_input_dialog(self, obj):
-        self.student_dialog.dismiss()
-
-    def uptade_table_after_deletion(self, new_table, obj):
+    def update_data_table(self, *args):
         self.deleted_student_dialog.dismiss()
+        # args[0].dismiss()
+        # if len(args) > 1:
+        #     args[0].dismiss()
+        new_table = args[-1]
+        self.data_table.row_data = new_table
+
+    def add_student_dialog(self, function_name):
+        self.add_student_dialog = MDDialog(
+                title='Enter File Name',
+                content_cls=AddStudentDialog(),
+                type="custom",
+                buttons=[
+                    MDRectangleFlatButton(
+                        text='Enter',
+                        theme_text_color='Custom',
+                        text_color=self.theme_cls.primary_color,
+                        on_release=lambda _: self.create_new_student(),
+                    )
+                ]
+            )
+        self.add_student_dialog.open()
+
+    def create_new_student(self):
+        self.add_student_dialog.dismiss()
+
+        name = self.add_student_dialog.content_cls.ids.input_full_name.text
+        group = self.add_student_dialog.content_cls.ids.input_group.text
+        sick = self.add_student_dialog.content_cls.ids.input_sick.text
+        absent = self.add_student_dialog.content_cls.ids.input_absent.text
+        other = self.add_student_dialog.content_cls.ids.input_other.text
+
+        new_table = self.controller.add_student_to_table(name, group, sick, absent, other)
         self.data_table.row_data = new_table
 
 
