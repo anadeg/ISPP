@@ -40,14 +40,16 @@ class Model:
 
     @staticmethod
     def write_data_in_xml(file_name, table_with_new_student):
+        characteristics = ["name", "group", "sick", "absent", "other"]
         path_to_file = Model.get_path_to_file(file_name)
         writer = StudentWriter(path_to_file)
         for student in table_with_new_student:
-            writer.create_student(student.__dict__)
+            student_dict = {characteristics[i]: student[i] for i in range(len(student))}
+            writer.create_student(student_dict)
         writer.add_students_to_xml()
 
     def add_student_to_table(self, student_data):
-        bisect.insort(self.table_of_students, [*student_data.values()])
+        bisect.insort(self.table_of_students, student_data)
 
     @staticmethod
     def filter_by_surname(table_of_students, surname):
