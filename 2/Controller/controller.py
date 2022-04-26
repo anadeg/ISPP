@@ -7,17 +7,9 @@ class Controller:
     def __init__(self, model=None):
         self.model = model
 
-    # def get_student_table(self):
-    #     return self.table_convertion(self.model.table_of_students)
+    def get_student_table(self):
+        return self.model.table_of_students
 
-    # @staticmethod
-    # def table_convertion(model_table):
-    #     result = []
-    #     for student in model_table:
-    #         result.append([*student.__dict__.values()])
-    #     return result
-
-    # returns downloaded table of students
     def download_students(self, file_name):
         result = []
         try:
@@ -29,12 +21,13 @@ class Controller:
 
     def upload_student(self, file_name, new_student):
         try:
-            self.model.write_data_in_xml(file_name, [new_student])
+            self.model.write_data_in_xml(file_name, [[new_student]])
         except ValueError:
             pass
 
     def add_student_to_table(self, name, group, sick, absent, other):
-        pass
+        self.model.add_student_to_table([name, group, str(sick), str(absent), str(other)])
+        return self.get_student_table()
 
     def filters(self, name, group, sick_interval, absent_interval, other_interval):
         result = \
@@ -42,4 +35,4 @@ class Controller:
         return result
 
     def delete_students(self, black_list):
-        return self.model.delete_students_from_table(black_list)
+        self.model.delete_students_from_table(black_list)
