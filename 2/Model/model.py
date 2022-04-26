@@ -7,6 +7,9 @@ from xmls.sax_reader import StudentHandler
 from xmls.dom_writer import StudentWriter
 from View.generate_table import generate_table
 
+# add characterictics ("name", "group" etc.) to class
+# remade methods to use it
+
 
 class Model:
     def __init__(self, table_of_students=[]):
