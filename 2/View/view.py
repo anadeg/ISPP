@@ -74,7 +74,6 @@ class MainApp(MDApp):
                     text='Enter',
                     theme_text_color='Custom',
                     text_color=self.theme_cls.primary_color,
-                    # on_release=self.get_students_table_by_path
                     on_release=function_name
                 )
             ]
@@ -91,28 +90,18 @@ class MainApp(MDApp):
                     text='Enter',
                     theme_text_color='Custom',
                     text_color=self.theme_cls.primary_color,
-                    # on_release=self.get_students_table_by_path
                     on_release=function_name
                 )
             ]
         )
         self.input_student_dialog.open()
 
-    # view calls controller
-    # controller gives model path and asks to give table
-    # controller returns table
-    # controller gives table as MDDataTable argument to view
     def get_students_table_by_path(self, obj):
         self.file_name_dialog.dismiss()
         path = self.file_name_dialog.content_cls.ids.file.text
         data = self.controller.download_students(path)
         self.data_table.row_data = data
 
-    # view gives controller filter settings
-    # use all not empty fields as filter modes
-    # controller gives model modes
-    # model returns filtered data (as new table)
-    # controller gives data to view MDDialog
     def get_filtered_students(self, obj):
         self.input_student_dialog.dismiss()
 
@@ -124,9 +113,6 @@ class MainApp(MDApp):
 
         return self.controller.filters(name, group, sick, absent, other)
 
-    # calls filter through controller
-    # controller returns table of student
-    # shows it in MDDialog
     def show_filtered_students(self, obj):
         data = self.get_filtered_students(obj)
         layout = BoxLayout(
@@ -169,9 +155,6 @@ class MainApp(MDApp):
         table.row_data = data
         self.student_dialog.open()
 
-    # calls filter through controller
-    # controller returns table of student
-    # counts deleted students
     def show_deleted_students(self, obj):
         data = self.get_filtered_students(obj)
         indexes = self.controller.delete_students(data)
@@ -185,7 +168,6 @@ class MainApp(MDApp):
         else:
             text = "No student was deleted"
 
-        # self.data_table.row_data = new_table
         self.deleted_student_dialog = MDDialog(
             title="Deleted Information",
             text=text,
