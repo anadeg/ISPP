@@ -101,4 +101,50 @@ Screen:
         helper_text: "enter interval like 10 <= n <= 34"
         helper_text_mode: 'on_focus'
 
+
+<IntField@MDTextField>:
+    size_hint: 0.9, 0.1
+    input_type: "text"
+    
+<AddStudentDialog>:
+    id: student_data_dialog
+    name: 'student_data_dialog'
+    
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: "300dp"
+    
+    full_name: input_full_name
+    group: input_group
+    sick: input_sick
+    absent: input_absent
+    other: input_other
+
+
+    TextField:
+        id: input_full_name
+        hint_text: "enter full name"
+
+    TextField:
+        id: input_group
+        hint_text: "enter group"
+
+    IntField:
+        id: input_sick
+        hint_text: "enter sick"
+        helper_text: "enter integer like 10"
+        helper_text_mode: 'on_focus'
+
+    IntField:
+        id: input_absent
+        hint_text: "enter absent"
+        helper_text: "enter integer like 10"
+        helper_text_mode: 'on_focus'
+
+    IntField:
+        id: input_other
+        hint_text: "enter other"
+        helper_text: "enter integer like 10"
+        helper_text_mode: 'on_focus'
 """
