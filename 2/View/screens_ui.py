@@ -40,6 +40,13 @@ Screen:
                     app.open_input_student_dialog(app.show_deleted_students)
                 IconLeftWidget:
                     icon: 'delete-outline'
+            OneLineIconListItem:
+                text: "add student"
+                on_press: 
+                    root.drawer.set_state("close")
+                    app.add_student_dialog(app.create_new_student)
+                IconLeftWidget:
+                    icon: 'filter-outline'
                     
 <Content>:
     orientation: 'vertical'
