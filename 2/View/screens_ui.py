@@ -19,12 +19,21 @@ Screen:
     ScrollView:
         MDList:
             OneLineIconListItem:
+                text: "add student"
+                on_press: 
+                    root.drawer.set_state("close")
+                    app.add_new_student_dialog(app.add_new_student_to_table)
+                IconLeftWidget:
+                    icon: 'account-plus-outline'
+                    
+            OneLineIconListItem:
                 text: "enter file name"
                 on_press: 
                     root.drawer.set_state("close")
                     app.open_file_name_dialog(app.get_students_table_by_path)
                 IconLeftWidget:
                     icon: 'file-multiple-outline'
+                    
             OneLineIconListItem:
                 text: "filter students"
                 on_press: 
@@ -40,13 +49,7 @@ Screen:
                     app.open_input_student_dialog(app.show_deleted_students)
                 IconLeftWidget:
                     icon: 'delete-outline'
-            OneLineIconListItem:
-                text: "add student"
-                on_press: 
-                    root.drawer.set_state("close")
-                    app.add_student_dialog(app.create_new_student)
-                IconLeftWidget:
-                    icon: 'filter-outline'
+
                     
 <Content>:
     orientation: 'vertical'
@@ -64,7 +67,6 @@ Screen:
 <TextField@MDTextField>:
     size_hint: 0.9, 0.1
     input_type: "text"
-    
     
 <StudentDataDialog>:
     id: student_data_dialog
@@ -114,8 +116,8 @@ Screen:
     input_type: "text"
     
 <AddStudentDialog>:
-    id: student_data_dialog
-    name: 'student_data_dialog'
+    id: add_student_dialog
+    name: 'add_student_dialog'
     
     orientation: "vertical"
     spacing: "12dp"
@@ -137,19 +139,19 @@ Screen:
         id: input_group
         hint_text: "enter group"
 
-    IntField:
+    TextField:
         id: input_sick
         hint_text: "enter sick"
         helper_text: "enter integer like 10"
         helper_text_mode: 'on_focus'
 
-    IntField:
+    TextField:
         id: input_absent
         hint_text: "enter absent"
         helper_text: "enter integer like 10"
         helper_text_mode: 'on_focus'
 
-    IntField:
+    TextField:
         id: input_other
         hint_text: "enter other"
         helper_text: "enter integer like 10"
