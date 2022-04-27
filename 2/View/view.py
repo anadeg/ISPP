@@ -187,23 +187,23 @@ class MainApp(MDApp):
         new_table = args[-1]
         self.data_table.row_data = new_table
 
-    def add_student_dialog(self, function_name):
+    def add_new_student_dialog(self, function_name):
         self.add_student_dialog = MDDialog(
-                title='Enter File Name',
-                content_cls=AddStudentDialog(),
-                type="custom",
-                buttons=[
-                    MDRectangleFlatButton(
-                        text='Enter',
-                        theme_text_color='Custom',
-                        text_color=self.theme_cls.primary_color,
-                        on_release=lambda _: self.create_new_student(),
-                    )
-                ]
-            )
+                    title='Input Student Information',
+                    content_cls=AddStudentDialog(),
+                    type="custom",
+                    buttons=[
+                        MDRectangleFlatButton(
+                            text='Enter',
+                            theme_text_color='Custom',
+                            text_color=self.theme_cls.primary_color,
+                            on_release=function_name,
+                        )
+                    ]
+                )
         self.add_student_dialog.open()
 
-    def create_new_student(self):
+    def add_new_student_to_table(self, obj):
         self.add_student_dialog.dismiss()
 
         name = self.add_student_dialog.content_cls.ids.input_full_name.text
