@@ -34,7 +34,7 @@ class AddStudentDialog(BoxLayout):
     pass
 
 
-class FileAndStudentDialog(Content, StudentDataDialog):
+class FileAndStudentDialog(Content, AddStudentDialog):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -223,7 +223,7 @@ class MainApp(MDApp):
 
     def open_file_and_student_dialog(self):
         self.file_and_student_dialog = MDDialog(
-            title='Input Student Information',
+            title='Input File and Student Information',
             content_cls=FileAndStudentDialog(size_hint_y=None,
                                              height=dp(370)),
             type="custom",
@@ -232,79 +232,21 @@ class MainApp(MDApp):
                     text='Enter',
                     theme_text_color='Custom',
                     text_color=self.theme_cls.primary_color,
-                    on_release=lambda _: self.file_and_student_dialog.dismiss(),
+                    on_release=lambda _: self.upload_student_to_file(),
                 )
             ]
         )
         self.file_and_student_dialog.open()
-        # self.file_and_student_dilog.size_hint_y = None
-        # self.file_and_student_dilog.
-    # def input_file_to_add_new_student(self, *args):
-    #     # self.file_name_dialog = MDDialog(
-    #     #     title='Enter File Name',
-    #     #     content_cls=Content(),
-    #     #     type="custom",
-    #     #     buttons=[
-    #     #         MDRectangleFlatButton(
-    #     #             text='Enter',
-    #     #             theme_text_color='Custom',
-    #     #             text_color=self.theme_cls.primary_color,
-    #     #             on_release=lambda _: self.file_name_dialog.dismiss(),
-    #     #         )
-    #     #     ]
-    #     # )
-    #     # self.file_name_dialog.open()
-    #     # file = self.file_name_dialog.content_cls.ids.file.text
-    #
-    #     self.open_file_name_dialog(self.close_file_name_dialog)
-    #
-    #     # path = self.file_name_dialog.content_cls.ids.file.text
-    #     # print(path)
-    #
-    #     # self.add_student_dialog = MDDialog(
-    #     #     title='Input Student Information',
-    #     #     content_cls=AddStudentDialog(),
-    #     #     type="custom",
-    #     #     buttons=[
-    #     #         MDRectangleFlatButton(
-    #     #             text='Enter',
-    #     #             theme_text_color='Custom',
-    #     #             text_color=self.theme_cls.primary_color,
-    #     #             on_release=lambda _: self.add_student_dialog.dismiss(),
-    #     #         )
-    #     #     ]
-    #     # )
-    #     # self.add_student_dialog.open()
-    #     #
-    #     # name = self.add_student_dialog.content_cls.ids.input_full_name.text
-    #     # group = self.add_student_dialog.content_cls.ids.input_group.text
-    #     # sick = self.add_student_dialog.content_cls.ids.input_sick.text
-    #     # absent = self.add_student_dialog.content_cls.ids.input_absent.text
-    #     # other = self.add_student_dialog.content_cls.ids.input_other.text
-    #     # name = "me"
-    #     # group = "09"
-    #     # sick = "80"
-    #     # absent = "20"
-    #     # other = "10"
-    #     #
-    #     # self.controller.add_student_to_file(self.file_name, self.name, self.group, self.sick, self.absent, self.other)
-    #
-    # def close_file_name_dialog(self, *args):
-    #     self.file_name_dialog.dismiss()
-    #     self.file_name = self.file_name_dialog.content_cls.ids.file.text
-    #
-    #     self.open_input_student_dialog(self.add_new_student_to_table)
-    #
-    #     self.add_new_student_to_file(*args)
-    #
-    #     # self.open_new_student_dialog(self.add_new_student_to_table)
-    #     #
-    #     # self.controller.add_student_to_file(path, self.file, self.name, self.group, self.sick, self.absent, self.other)
-    #
-    # def add_new_student_to_file(self, *args):
-    #     # self.add_student_dialog.dismiss()
-    #     # self.controller.add_student_to_file(self.file_name, self.name, self.group, self.sick, self.absent, self.other)
-    #     self.controller.add_student_to_file(self.file_name, self.full_name, self.group, self.sick, self.absent, self.other)
+
+    def upload_student_to_file(self, *args):
+        self.file_and_student_dialog.dismiss()
+
+        file_name = self.file_and_student_dialog.content_cls.ids.file.text
+        name = self.file_and_student_dialog.content_cls.ids.input_full_name.text
+        group = self.file_and_student_dialog.content_cls.ids.input_group.text
+        sick = self.file_and_student_dialog.content_cls.ids.input_sick.text
+        absent = self.file_and_student_dialog.content_cls.ids.input_absent.text
+        other = self.file_and_student_dialog.content_cls.ids.input_other.text
 
 
 
@@ -312,6 +254,9 @@ def main():
     m = Model()
     c = Controller(m)
     MainApp(c).run()
+
+    # fas = AddStudentDialog()
+    # print(fas.ids, sep='\n')
 
 
 if __name__ == "__main__":
