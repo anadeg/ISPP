@@ -81,7 +81,7 @@ Screen:
     name: 'student_data_dialog'
     
     orientation: "vertical"
-    spacing: "12dp"
+    spacing: "8dp"
     size_hint_y: None
     height: "300dp"
     
@@ -128,7 +128,7 @@ Screen:
     name: 'add_student_dialog'
     
     orientation: "vertical"
-    spacing: "12dp"
+    spacing: "8dp"
     size_hint_y: None
     height: "300dp"
     
@@ -163,5 +163,56 @@ Screen:
         id: input_other
         hint_text: "enter other"
         helper_text: "enter integer like 10"
+        helper_text_mode: 'on_focus'
+        
+"""
+
+kv = """
+<FileAndStudentDialog>:
+    id: file_and_student_dialog
+    name: 'file_and_student_dialog'
+    
+    orientation: "vertical"
+    spacing: "8dp"
+    size_hint_y: None
+    height: "330dp"
+    
+    file: file
+    full_name: input_full_name
+    group: input_group
+    sick: input_sick
+    absent: input_absent
+    other: input_other
+    
+    TextField:
+        id: file
+        hint_text: 'Enter File Name'
+        helper_text: 'file must be in folder "xmls"'
+        helper_text_mode: 'on_focus'
+
+    TextField:
+        id: input_full_name
+        hint_text: "Enter Full Name"
+
+    TextField:
+        id: input_group
+        hint_text: "Enter Group"
+
+    TextField:
+        id: input_sick
+        hint_text: "Enter Sick"
+        helper_text: "Enter Integer Like 10"
+        helper_text_mode: 'on_focus'
+
+    TextField:
+        id: input_absent
+        hint_text: "Enter Absent"
+        helper_text: "Enter Integer Like 10"
+        helper_text_mode: 'on_focus'
+
+    TextField:
+        id: input_other
+        hint_text: "Enter Other"
+        helper_text: "Enter Integer Like 10"
         helper_text_mode: 'on_focus'
 """
