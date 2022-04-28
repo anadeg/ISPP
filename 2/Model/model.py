@@ -51,10 +51,7 @@ class Model:
 
     @staticmethod
     def filter_by_surname(table_of_students, surname):
-        # surnames_list = [s[0].split()[-1] for s in table_of_students]
         result = []
-        # start_index = bisect.bisect_left(surnames_list, surname)
-        # last_index = bisect.bisect_right(surnames_list, surname)
         for student in table_of_students:
             if student[0].split()[-1] == surname:
                 result.append(student)
@@ -72,7 +69,6 @@ class Model:
         return student_from_group
 
     def filter_by_reason(self, table_of_students, reason, min_amount, max_amount):
-        # students_properties_dict = [student.__dict__ for student in table_of_students]
         reason_index = self.characteristics.index(reason)    # because of name and group
         result = []
         for student in table_of_students:
@@ -82,7 +78,7 @@ class Model:
         return result
 
     def filters(self, name_filter, group_filter, sick_interval, absent_interval, other_interval):
-        reasons = ["sick", "absent", "other"]
+        reasons = self.characteristics[2:]
         reasons_filters = [sick_interval, absent_interval, other_interval]
         filtered_table = self.table_of_students
         if name_filter:
@@ -103,7 +99,6 @@ class Model:
         return min_value, max_value
 
     def delete_students_from_table(self, black_list):
-        deleted_indexes = []
         try:
             for student in black_list:
                 self.table_of_students.remove(student)
