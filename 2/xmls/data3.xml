@@ -1,0 +1,73 @@
+<?xml version="1.0" ?>
+ <table>
+  
+  
+  
+
+ 
+  
+  
+  <student>
+   
+   
+   
+   
+   <name>me</name>
+   
+   
+   
+   
+   <group>2323</group>
+   
+   
+   
+   
+   <sick>0</sick>
+   
+   
+   
+   
+   <absent>0</absent>
+   
+   
+   
+   
+   <other>0</other>
+   
+   
+  
+  
+  </student>
+  
+  
+ 
+  
+  <student>
+   
+   
+   <name>me me</name>
+   
+   
+   <group>23</group>
+   
+   
+   <sick>10</sick>
+   
+   
+   <absent>10</absent>
+   
+   
+   <other>10</other>
+   
+  
+  </student>
+  
+ 
+  <student>
+   <name>me me me</name>
+   <group>123</group>
+   <sick>120</sick>
+   <absent>120</absent>
+   <other>120</other>
+  </student>
+ </table>

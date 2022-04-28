@@ -19,7 +19,7 @@ class StudentHandler(xml.sax.ContentHandler):
             self.group = content
         elif self.current == "sick":
             self.sick = content
-        elif self.current == "absence":
+        elif self.current == "absent":
             self.absence = content
         elif self.current == "other":
             self.other = content
@@ -31,8 +31,8 @@ class StudentHandler(xml.sax.ContentHandler):
             self.student_data["group"] = self.group
         elif self.current == "sick":
             self.student_data["sick"] = self.sick
-        elif self.current == "absence":
-            self.student_data["absence"] = self.absence
+        elif self.current == "absent":
+            self.student_data["absent"] = self.absence
         elif self.current == "other":
             self.student_data["other"] = self.other
 
