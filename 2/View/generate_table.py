@@ -1,8 +1,6 @@
 from random import choice, randint
 import bisect
 
-from Model.student import Student
-
 
 def generate_table(number_of_rows):
     names = ["Liam", "Olivia", "Noah", "Emma",
