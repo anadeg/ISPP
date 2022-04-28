@@ -19,23 +19,31 @@ Screen:
     ScrollView:
         MDList:
             OneLineIconListItem:
-                text: "add student"
+                text: "Add New Student to Table"
                 on_press: 
                     root.drawer.set_state("close")
-                    app.add_new_student_dialog(app.add_new_student_to_table)
+                    app.open_new_student_dialog(app.add_new_student_to_table)
                 IconLeftWidget:
                     icon: 'account-plus-outline'
-                    
+            
             OneLineIconListItem:
-                text: "enter file name"
+                text: "Upload Student to File"
+                on_press: 
+                    root.drawer.set_state("close")
+                    app.open_file_and_student_dialog()
+                IconLeftWidget:
+                    icon: 'file-plus-outline'
+            
+            OneLineIconListItem:
+                text: "Download Students from File"
                 on_press: 
                     root.drawer.set_state("close")
                     app.open_file_name_dialog(app.get_students_table_by_path)
                 IconLeftWidget:
-                    icon: 'file-multiple-outline'
+                    icon: 'download-outline'
                     
             OneLineIconListItem:
-                text: "filter students"
+                text: "Filter Students"
                 on_press: 
                     root.drawer.set_state("close")
                     app.open_input_student_dialog(app.show_filtered_students)
@@ -43,7 +51,7 @@ Screen:
                     icon: 'filter-outline'
                     
             OneLineIconListItem:
-                text: "delete students"
+                text: "Delete Students"
                 on_press: 
                     root.drawer.set_state("close")
                     app.open_input_student_dialog(app.show_deleted_students)
@@ -55,9 +63,9 @@ Screen:
     orientation: 'vertical'
     spacing: '8dp'
     size_hint_y :None
-    height: '40dp'
+    height: '30dp'
     
-    MDTextField:
+    TextField:
         id: file
         hint_text: 'enter file name'
         helper_text: 'file must be in folder "xmls"'
@@ -65,7 +73,7 @@ Screen:
         
         
 <TextField@MDTextField>:
-    size_hint: 0.9, 0.1
+    size_hint: 0.9, 0.07
     input_type: "text"
     
 <StudentDataDialog>:
@@ -86,7 +94,7 @@ Screen:
 
     TextField:
         id: input_full_name
-        hint_text: "enter last name"
+        hint_text: "enter full name"
 
     TextField:
         id: input_group
