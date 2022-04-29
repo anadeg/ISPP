@@ -4,35 +4,35 @@
         <name>Belli Sergie</name>
         <group>02</group>
         <sick>0</sick>
-        <absence>0</absence>
+        <absent>0</absent>
         <other>0</other>
     </student>
     <student id="2">
         <name>Voishie Maya</name>
         <group>02</group>
         <sick>0</sick>
-        <absence>4</absence>
+        <absent>4</absent>
         <other>0</other>
     </student>
     <student id="3">
         <name>Gurrich Arthie</name>
         <group>02</group>
         <sick>0</sick>
-        <absence>12</absence>
+        <absent>12</absent>
         <other>4</other>
     </student>
     <student id="4">
         <name>Grapefruit Poline</name>
         <group>04</group>
         <sick>0</sick>
-        <absence>4</absence>
+        <absent>4</absent>
         <other>6</other>
     </student>
     <student id="5">
         <name>Beak Mathew</name>
         <group>04</group>
         <sick>0</sick>
-        <absence>26</absence>
+        <absent>26</absent>
         <other>4</other>
     </student>
 </table>

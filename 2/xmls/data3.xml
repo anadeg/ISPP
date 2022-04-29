@@ -3,11 +3,15 @@
   
   
   
+  
 
  
   
   
+  
   <student>
+   
+   
    
    
    
@@ -17,7 +21,11 @@
    
    
    
+   
+   
    <group>2323</group>
+   
+   
    
    
    
@@ -27,7 +35,11 @@
    
    
    
+   
+   
    <absent>0</absent>
+   
+   
    
    
    
@@ -35,39 +47,78 @@
    <other>0</other>
    
    
+   
+  
   
   
   </student>
   
   
+  
  
   
+  
   <student>
+   
+   
    
    
    <name>me me</name>
    
    
+   
+   
    <group>23</group>
+   
+   
    
    
    <sick>10</sick>
    
    
+   
+   
    <absent>10</absent>
    
    
+   
+   
    <other>10</other>
+   
+   
+  
+  
+  </student>
+  
+  
+ 
+  
+  <student>
+   
+   
+   <name>me me me</name>
+   
+   
+   <group>123</group>
+   
+   
+   <sick>120</sick>
+   
+   
+   <absent>120</absent>
+   
+   
+   <other>120</other>
    
   
   </student>
   
  
   <student>
-   <name>me me me</name>
-   <group>123</group>
-   <sick>120</sick>
-   <absent>120</absent>
-   <other>120</other>
+   <name>Alice Hook</name>
+   <group>23</group>
+   <sick>2</sick>
+   <absent>2</absent>
+   <other>2</other>
   </student>
  </table>
