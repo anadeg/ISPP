@@ -5,6 +5,7 @@ import xml.sax
 from xmls.sax_reader import StudentHandler
 from xmls.dom_writer import StudentWriter
 
+from View.generate_table import generate_table
 
 
 class Model:
@@ -72,7 +73,7 @@ class Model:
         reason_index = self.characteristics.index(reason)    # because of name and group
         result = []
         for student in table_of_students:
-            if min_amount <= student[reason_index] <= max_amount:
+            if min_amount <= int(student[reason_index]) <= max_amount:
                 result.append(student)
 
         return result
@@ -88,7 +89,8 @@ class Model:
         for i, given_filter in enumerate(reasons_filters):
             if given_filter:
                 min_value, max_value = Model.get_min_max(reasons_filters[i])
-                filtered_table = self.filter_by_reason(filtered_table, reasons[i], min_value, max_value)
+                if not (min_value is None or max_value is None):
+                    filtered_table = self.filter_by_reason(filtered_table, reasons[i], min_value, max_value)
         return filtered_table
 
     @staticmethod
@@ -96,34 +98,17 @@ class Model:
         reason_string = reason_string.replace(" ", "")
         cleared_string = reason_string.split("<=")
         min_value, max_value = cleared_string[0], cleared_string[-1]
+        try:
+            min_value = int(min_value)
+            max_value = int(max_value)
+        except ValueError:
+            return None, None
         return min_value, max_value
 
     def delete_students_from_table(self, black_list):
         try:
             for student in black_list:
                 self.table_of_students.remove(student)
-        except Exception:
+        except ValueError:
             pass
         return
-
-
-def main():
-    m = Model([])
-    relative_path = "../xmls/"
-    # path_to_file = ''.join([relative_path, "data3.xml"])
-    # table = generate_table(50)
-    # m.write_data_in_xml(path_to_file, table)
-    # try:
-    #     m.write_data_in_xml("data3.xml", [["me", "23", "10", "10", "10"]])
-    # except ValueError:
-    #     pass
-    try:
-        # m.table_of_students.clear()
-        m.read_data_from_xml("data3.xml")
-    except ValueError:
-        pass
-    print(*m.table_of_students)
-
-
-if __name__ == "__main__":
-    main()

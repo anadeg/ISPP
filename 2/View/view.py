@@ -1,6 +1,5 @@
 from kivy.lang import Builder
 from kivy.metrics import dp
-from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
@@ -40,13 +39,9 @@ class FileAndStudentDialog(Content, AddStudentDialog):
 
 
 class MainApp(MDApp):
-    # None to run without conflicts
     def __init__(self, controller=None, **kwargs):
         super().__init__(**kwargs)
         self.controller = controller
-        # self.data_table = MDDataTable()
-        # self.file_name_dialog = ObjectProperty()
-        # self.input_student_dialog = ObjectProperty()
 
     def build(self):
         screen = Screen()
@@ -99,12 +94,15 @@ class MainApp(MDApp):
                 )
             ]
         )
+        self.input_student_dialog.content_cls.ids.input_full_name.hint_text = "enter last name"
         self.input_student_dialog.open()
 
     def get_students_table_by_path(self, *args):
         self.file_name_dialog.dismiss()
         path = self.file_name_dialog.content_cls.ids.file.text
-        data = self.controller.download_students(path)
+        message, data = self.controller.download_students(path)
+        if message:
+            self.open_info_dialog(message)
         self.data_table.row_data = data
 
     def get_filtered_students(self, *args):
@@ -116,10 +114,16 @@ class MainApp(MDApp):
         absent = self.input_student_dialog.content_cls.ids.input_absent.text
         other = self.input_student_dialog.content_cls.ids.input_other.text
 
-        return self.controller.filters(name, group, sick, absent, other)
+        message, filtered_table = self.controller.filters(name, group, sick, absent, other)
+        if message:
+            self.open_info_dialog(message)
+            return None
+        return filtered_table
 
     def show_filtered_students(self, *args):
         data = self.get_filtered_students(*args)
+        if data is None:
+            return
         layout = BoxLayout(
             orientation="vertical",
             spacing='2dp',
@@ -162,6 +166,8 @@ class MainApp(MDApp):
 
     def show_deleted_students(self, *args):
         data = self.get_filtered_students(*args)
+        if data is None:
+            return
         self.controller.delete_students(data)
         new_table = self.controller.get_student_table()
 
@@ -186,9 +192,6 @@ class MainApp(MDApp):
 
     def update_data_table(self, *args):
         self.deleted_student_dialog.dismiss()
-        # args[0].dismiss()
-        # if len(args) > 1:
-        #     args[0].dismiss()
         new_table = args[-1]
         self.data_table.row_data = new_table
 
@@ -211,21 +214,22 @@ class MainApp(MDApp):
     def add_new_student_to_table(self, *args):
         self.add_student_dialog.dismiss()
 
-        self.full_name = self.add_student_dialog.content_cls.ids.input_full_name.text
-        # self.name = self.add_student_dialog.content_cls.ids.input_full_name.text
-        self.group = self.add_student_dialog.content_cls.ids.input_group.text
-        self.sick = self.add_student_dialog.content_cls.ids.input_sick.text
-        self.absent = self.add_student_dialog.content_cls.ids.input_absent.text
-        self.other = self.add_student_dialog.content_cls.ids.input_other.text
+        full_name = self.add_student_dialog.content_cls.ids.input_full_name.text
+        group = self.add_student_dialog.content_cls.ids.input_group.text
+        sick = self.add_student_dialog.content_cls.ids.input_sick.text
+        absent = self.add_student_dialog.content_cls.ids.input_absent.text
+        other = self.add_student_dialog.content_cls.ids.input_other.text
 
-        new_table = self.controller.add_student_to_table(self.full_name, self.group, self.sick, self.absent, self.other)
+        message, new_table = self.controller.add_student_to_table(full_name, group, sick, absent, other)
+        if message:
+            self.open_info_dialog(message)
         self.data_table.row_data = new_table
 
     def open_file_and_student_dialog(self):
         self.file_and_student_dialog = MDDialog(
             title='Input File and Student Information',
             content_cls=FileAndStudentDialog(size_hint_y=None,
-                                             height=dp(370)),
+                                             height=dp(360)),
             type="custom",
             buttons=[
                 MDRectangleFlatButton(
@@ -248,6 +252,21 @@ class MainApp(MDApp):
         absent = self.file_and_student_dialog.content_cls.ids.input_absent.text
         other = self.file_and_student_dialog.content_cls.ids.input_other.text
 
+        message = self.controller.add_student_to_file(file_name, name, group, sick, absent, other)
+        if message:
+            self.open_info_dialog(message)
+
+    def open_info_dialog(self, message):
+        self.info_dialog = MDDialog(
+            title=message,
+            buttons=[
+                MDRectangleFlatButton(
+                    text="Close",
+                    on_release=lambda _: self.info_dialog.dismiss()
+                )
+            ]
+        )
+        self.info_dialog.open()
 
 
 def main():
@@ -255,10 +274,6 @@ def main():
     c = Controller(m)
     MainApp(c).run()
 
-    # fas = AddStudentDialog()
-    # print(fas.ids, sep='\n')
-
 
 if __name__ == "__main__":
     main()
-
