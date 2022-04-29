@@ -7,10 +7,7 @@ from kivymd.uix.button import MDRectangleFlatButton
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.dialog import MDDialog
 
-from Controller.controller import Controller
-from Model.model import Model
-
-from screens_ui import using_navigation
+from View.screens_ui import using_navigation
 
 
 class Content(BoxLayout):
@@ -268,12 +265,3 @@ class MainApp(MDApp):
         )
         self.info_dialog.open()
 
-
-def main():
-    m = Model()
-    c = Controller(m)
-    MainApp(c).run()
-
-
-if __name__ == "__main__":
-    main()

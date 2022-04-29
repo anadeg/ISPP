@@ -1,12 +1,13 @@
-import kivy
-
-from kivy.app import App
-from kivy.uix.label import Label
-
-
-class MyApp(App):
-    def build(self):
-        return Label(text="hello")
+from Controller.controller import Controller
+from Model.model import Model
+from View.view import MainApp
 
 
-MyApp().run()
+def main():
+    m = Model()
+    c = Controller(m)
+    MainApp(c).run()
+
+
+if __name__ == "__main__":
+    main()

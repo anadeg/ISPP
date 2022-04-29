@@ -1,3 +1,5 @@
+import os
+
 import bisect
 import xml.sax
 
@@ -17,8 +19,9 @@ class Model:
 
     @staticmethod
     def get_path_to_file(file_name):
-        relative_path = "../xmls/"                  # path to folder with files
-        return ''.join([relative_path, file_name])
+        # relative_path = "../xmls/"                  # path to folder with files
+        relative_path = os.path.abspath('xmls')
+        return os.path.join(relative_path, file_name)
 
     def read_data_from_xml(self, file_name):
         path_to_file = Model.get_path_to_file(file_name)
