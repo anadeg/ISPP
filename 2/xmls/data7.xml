@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+ <table>
+  
+  
+
+  
+  <student>
+   
+   
+   <name>me me</name>
+   
+   
+   <group>02</group>
+   
+   
+   <sick>2</sick>
+   
+   
+   <absent>2</absent>
+   
+   
+   <other>2</other>
+   
+  
+  </student>
+  
+ 
+  <student>
+   <name>Deus Vult</name>
+   <group>21</group>
+   <sick>0</sick>
+   <absent>0</absent>
+   <other>0</other>
+  </student>
+ </table>
